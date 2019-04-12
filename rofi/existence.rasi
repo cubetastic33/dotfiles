@@ -1,0 +1,146 @@
+/*
+'########:'##::::'##:'####::'######::'########:'########:'##::: ##::'######::'########:
+ ##.....::. ##::'##::. ##::'##... ##:... ##..:: ##.....:: ###:: ##:'##... ##: ##.....::
+ ##::::::::. ##'##:::: ##:: ##:::..::::: ##:::: ##::::::: ####: ##: ##:::..:: ##:::::::
+ ######:::::. ###::::: ##::. ######::::: ##:::: ######::: ## ## ##: ##::::::: ######:::
+ ##...:::::: ## ##:::: ##:::..... ##:::: ##:::: ##...:::: ##. ####: ##::::::: ##...::::
+ ##:::::::: ##:. ##::: ##::'##::: ##:::: ##:::: ##::::::: ##:. ###: ##::: ##: ##:::::::
+ ########: ##:::. ##:'####:. ######::::: ##:::: ########: ##::. ##:. ######:: ########:
+........::..:::::..::....:::......::::::..:::::........::..::::..:::......:::........::
+
+Rofi theme by aravk33
+
+*/
+
+* {
+    // Colors
+    background:                 #21212188;
+    foreground:                 #FFFFFF;
+    scrollbar-background:       #1B1B1B44;
+    scrollbar-foreground:       #ee22bb44;
+    normal-background:          #3C3C3C22;
+    normal-foreground:          #CFCFCF;
+    selected-normal-background: #EE22BBB8;
+    selected-normal-foreground: #CFCFCF;
+    alternate-normal-background:#212121;
+    alternate-normal-foreground:#BFBFBF;
+    urgent-background:          rgba(39, 40, 34, 0);
+    urgent-foreground:          rgba(249, 38, 114, 1);
+    selected-urgent-background: rgba(249, 38, 114, 1);
+    alternate-urgent-background:rgba(39, 40, 34, 0);
+    alternate-urgent-foreground: @urgent-foreground;
+    alternate-active-foreground: @active-foreground;
+    active-background:           rgba(39, 40, 34, 0);
+    selected-active-background:  rgba(20, 20, 17, 1);
+
+    // Properties
+    background-color: @background;
+    text-color: @foreground;
+    border-color: @foreground;
+    transparency: "real";
+}
+
+#window {
+    background-color: @background;
+    border: 2;
+    border-radius: 4;
+    fullscreen: false;
+}
+
+#listview {
+    fixed-height: 0;
+    border:       2 0 0;
+    border-color: @separatorcolor;
+    spacing:      2;
+    scrollbar:    true;
+    padding:      4;
+}
+
+#element {
+    border:  0;
+    border-radius: 3;
+    padding: 1;
+}
+
+#element.normal.normal {
+    background-color: @normal-background;
+    text-color: @normal-foreground;
+}
+
+#element.normal.urgent {
+    background-color: @urgent-background;
+    text-color: @urgent-foreground;
+}
+
+#element.normal.active {
+    background-color: @active-background;
+    text-color: @active-foreground;
+}
+
+#element.selected.normal {
+    background-color: @selected-normal-background;
+    text-color: @selected-normal-foreground;
+}
+
+#element.selected.urgent {
+    background-color: @selected-urgent-background;
+    text-color: @selected-urgent-foreground;
+}
+
+#element.selected.active {
+    background-color: @selected-active-background;
+    text-color: @selected-active-foreground;
+}
+
+#element.alternate.normal {
+    background-color: @alternate-normal-background;
+    text-color: @alternate-normal-foreground;
+}
+
+#element.alternate.urgent {
+    background-color: @alternate-urgent-background;
+    text-color: @alternate-urgent-foreground;
+}
+
+#element.alternate.active {
+    background-color: @alternate-active-background;
+    text-color: @alternate-active-foreground;
+}
+
+#scrollbar {
+    background-color: @scrollbar-background;
+    handle-color: @scrollbar-foreground;
+    handle-width: 5;
+    margin: 0 0 0 2;
+}
+
+#inputbar {
+    background-color: @alternate-normal-background;
+    children: [prompt, textbox-prompt-colon, entry, case-indicator];
+}
+
+#prompt {
+    background-color: @alternate-normal-background;
+    text-color: @normal-foreground;
+    padding: 3 0 0 5;
+}
+
+#textbox-prompt-colon {
+    background-color: @alternate-normal-background;
+    expand: false;
+    str: ":";
+    margin: 3 0.3em 0 0;
+    text-color: @normal-foreground;
+}
+
+#entry {
+    background-color: @alternate-normal-background;
+    padding: 3 0 0 0;
+    text-color: @normal-foreground;
+}
+
+#case-indicator {
+    background-color: @alternate-normal-background;
+    padding: 3 0 0 0;
+    text-color: @normal-foreground;
+}
