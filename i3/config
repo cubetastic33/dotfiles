@@ -202,9 +202,8 @@ bindsym $mod+r mode "resize"
 #         status_command i3status
 # }
 
-exec --no-startup-id compton
 exec --no-startup-id ~/.fehbg
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+exec --no-startup-id compton
+exec_always --no-startup-id ~/.config/polybar/launch.sh
 exec --no-startup-id blueman-applet
 exec --no-startup-id nm-applet
-# exec --no-startup-id pasystray
