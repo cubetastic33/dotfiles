@@ -1,63 +1,60 @@
-/*
-'########:'##::::'##:'####::'######::'########:'########:'##::: ##::'######::'########:
- ##.....::. ##::'##::. ##::'##... ##:... ##..:: ##.....:: ###:: ##:'##... ##: ##.....::
- ##::::::::. ##'##:::: ##:: ##:::..::::: ##:::: ##::::::: ####: ##: ##:::..:: ##:::::::
- ######:::::. ###::::: ##::. ######::::: ##:::: ######::: ## ## ##: ##::::::: ######:::
- ##...:::::: ## ##:::: ##:::..... ##:::: ##:::: ##...:::: ##. ####: ##::::::: ##...::::
- ##:::::::: ##:. ##::: ##::'##::: ##:::: ##:::: ##::::::: ##:. ###: ##::: ##: ##:::::::
- ########: ##:::. ##:'####:. ######::::: ##:::: ########: ##::. ##:. ######:: ########:
-........::..:::::..::....:::......::::::..:::::........::..::::..:::......:::........::
-
-Rofi theme by aravk33
-
-*/
-
 * {
     // Colors
-    background:                 #21212188;
-    foreground:                 #FFFFFF;
-    scrollbar-background:       #1B1B1B44;
-    scrollbar-foreground:       #ee22bb44;
-    normal-background:          #3C3C3C22;
-    normal-foreground:          #CFCFCF;
-    selected-normal-background: #EE22BBB8;
-    selected-normal-foreground: #CFCFCF;
-    alternate-normal-background:#212121;
-    alternate-normal-foreground:#BFBFBF;
-    urgent-background:          rgba(39, 40, 34, 0);
-    urgent-foreground:          rgba(249, 38, 114, 1);
-    selected-urgent-background: rgba(249, 38, 114, 1);
-    alternate-urgent-background:rgba(39, 40, 34, 0);
-    alternate-urgent-foreground: @urgent-foreground;
-    alternate-active-foreground: @active-foreground;
-    active-background:           rgba(39, 40, 34, 0);
-    selected-active-background:  rgba(20, 20, 17, 1);
+    active-background: #5DA36D;
+    active-foreground: @foreground;
+    normal-background: #0c0d0e22;
+    normal-foreground: @foreground;
+    urgent-background: #158B72;
+    urgent-foreground: @foreground;
+
+    alternate-active-background: @background;
+    alternate-active-foreground: @foreground;
+    alternate-normal-background: #3a3c3e22;
+    alternate-normal-foreground: @foreground;
+    alternate-urgent-background: @background;
+    alternate-urgent-foreground: @foreground;
+
+    selected-active-background: #158B72;
+    selected-active-foreground: @foreground;
+    selected-normal-background: #5DA36D;
+    selected-normal-foreground: @foreground;
+    selected-urgent-background: #E3C154;
+    selected-urgent-foreground: @foreground;
+
+    scrollbar-background:       @background;
+    scrollbar-foreground:       #5DA36D88;
 
     // Properties
     background-color: @background;
-    text-color: @foreground;
-    border-color: @foreground;
+    background: #0a0c0eaa;
+    foreground: #dedede;
+    border-color: @background;
+    spacing: 2;
     transparency: "real";
 }
 
 #window {
     background-color: @background;
-    border: 2;
-    border-radius: 4;
+    border: 0;
     fullscreen: false;
+}
+
+#mainbox {
+    border: 0;
+    padding: 1.5ch 1ch;
 }
 
 #listview {
     fixed-height: 0;
     border:       2 0 0;
-    border-color: @separatorcolor;
+    border-color: @border-color;
     spacing:      2;
     scrollbar:    true;
     padding:      4;
 }
 
 #element {
-    border:  0;
+    border: 0;
     border-radius: 3;
     padding: 1;
 }
@@ -115,18 +112,19 @@ Rofi theme by aravk33
 }
 
 #inputbar {
-    background-color: @alternate-normal-background;
+    background-color: #00000000;
+    text-color: @alternate-normal-foreground;
     children: [prompt, textbox-prompt-colon, entry, case-indicator];
 }
 
 #prompt {
-    background-color: @alternate-normal-background;
+    background-color: #00000000;
     text-color: @normal-foreground;
     padding: 3 0 0 5;
 }
 
 #textbox-prompt-colon {
-    background-color: @alternate-normal-background;
+    background-color: #00000000;
     expand: false;
     str: ":";
     margin: 3 0.3em 0 0;
@@ -134,13 +132,23 @@ Rofi theme by aravk33
 }
 
 #entry {
-    background-color: @alternate-normal-background;
+    background-color: #00000000;
     padding: 3 0 0 0;
     text-color: @normal-foreground;
 }
 
 #case-indicator {
-    background-color: @alternate-normal-background;
+    background-color: #00000000;
     padding: 3 0 0 0;
     text-color: @normal-foreground;
+}
+
+#message {
+    border: 2px 0px 0px;
+    border-color: @border-color;
+    padding: 1px;
+}
+
+#textbox {
+    text-color: @foreground;
 }

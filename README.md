@@ -1,22 +1,16 @@
 # dotfiles
 My dotfiles for my Linux setup
 
-+ WM: [i3](https://i3wm.org/)
++ WM: [bspwm](https://github.com/baskerville/bspwm)
 
 + OS: [Arch Linux](https://www.archlinux.org/)
 
-+ Bar: [Polybar](https://github.com/jaagr/polybar)
++ Status Bar: [Polybar](https://github.com/jaagr/polybar)
 
-+ Menu: [Rofi](https://github.com/davatorium/rofi) (screenshot in album)
++ Menu: [Rofi](https://github.com/davatorium/rofi)
 
-+ Lock Screen: [betterlockscreen](https://github.com/pavanjadhaw/betterlockscreen) (screenshot in album)
++ Lock Screen: [xsecurelock](https://github.com/google/xsecurelock)
 
-+ Compositor: [Compton](https://github.com/chjj/compton)
++ Compositor: [Picom](https://github.com/yshui/picom)
 
-+ Terminal: [KiTTY](https://github.com/kovidgoyal/kitty)
-
-+ Scripts: [Neofetch](https://github.com/dylanaraps/neofetch) and [pipes.sh](https://github.com/pipeseroni/pipes.sh)
-
-+ Wallpaper: [Hour of tranquility](https://www.artstation.com/artwork/lVGXlJ)
-
-+ Album: [Existence](https://imgur.com/a/1akW3jz)
++ Terminal: [Alacritty](https://github.com/alacritty/alacritty)
