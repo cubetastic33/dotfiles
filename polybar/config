@@ -115,7 +115,7 @@ label-empty =
 
 [module/spotify]
 type = custom/script
-interval = 1
+interval = 0.2
 format = <label>
 format-prefix = 
 format-prefix-padding-right = 2
