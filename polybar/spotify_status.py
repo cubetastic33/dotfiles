@@ -1,8 +1,9 @@
 #!/bin/python
 
 import sys
-import dbus
 import argparse
+import dbus
+import pulsectl
 
 
 parser = argparse.ArgumentParser()
@@ -42,17 +43,18 @@ parser.add_argument(
 
 args = parser.parse_args()
 
+
 def fix_string(string):
     # corrects encoding for the python version used
     if sys.version_info.major == 3:
         return string
-    else:
-        return string.encode('utf-8')
+    return string.encode('utf-8')
+
 
 # Default parameters
 output = fix_string(u'{play_pause} {artist}: {song}')
 trunclen = 25
-play_pause = fix_string(u'\u25B6,\u23F8') # first character is play, second is paused
+play_pause = fix_string(u'\u25B6,\u23F8')  # first character is play, second is paused
 
 label_with_font = '%{{T{font}}}{label}%{{T-}}'
 font = args.font
@@ -112,6 +114,13 @@ try:
         if font:
             artist = label_with_font.format(font=font, label=artist)
             song = label_with_font.format(font=font, label=song)
+
+        with pulsectl.Pulse('event-printer') as pulse:
+            for inp in pulse.sink_input_list():
+                if inp.proplist['application.name'] == 'Spotify':
+                    vol = inp.volume
+                    vol.value_flat = 0.0 if not artist and (song == 'Advertisement' or song == 'Spotify') else 1.0
+                    pulse.volume_set(inp, vol)
 
         print(output.format(artist=artist, song=song, play_pause=play_pause))
 

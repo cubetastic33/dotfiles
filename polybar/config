@@ -89,6 +89,7 @@ tray-position = right
 ; Tray icon max size
 tray-maxsize = 16
 
+; Pad the sides of each tray icon
 tray-padding = 2
 
 [module/bspwm]

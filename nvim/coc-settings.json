@@ -1,4 +1,7 @@
 {
 	"python.autoComplete.addBrackets": true,
-	"python.linting.flake8Enabled": true
+	"python.linting.pylintArgs": ["-d", "E0611,C0103"],
+	"python.linting.flake8Enabled": true,
+	"python.linting.flake8Path": "/usr/bin/flake8",
+	"python.linting.flake8Args": ["--max-line-length", "88"]
 }
