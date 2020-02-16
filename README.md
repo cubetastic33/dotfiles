@@ -14,3 +14,9 @@ My dotfiles for my Linux setup
 + Compositor: [Picom](https://github.com/yshui/picom)
 
 + Terminal: [Alacritty](https://github.com/alacritty/alacritty)
+
+## Screenshots
+
+![neofetch, pipes.sh, and cmatrix](https://i.imgur.com/KVux9MB.png)
+
+![ncmpcpp](https://i.imgur.com/Zgm0zyN.png)
