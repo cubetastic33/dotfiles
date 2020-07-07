@@ -194,15 +194,15 @@ visualizer_look = "+|"
 #
 #song_library_format = {%n - }{%t}|{%f}
 #
-#alternative_header_first_line_format = $b$1$aqqu$/a$9 {%t}|{%f} $1$atqq$/a$9$/b
+alternative_header_first_line_format = $b$7$aqqu$/a$9 {%t}|{%f} $7$atqq$/a$9$/b
 #
 #alternative_header_second_line_format = {{$4$b%a$/b$9}{ - $7%b$9}{ ($4%y$9)}}|{%D}
 #
-#current_item_prefix = $(yellow)$r
+current_item_prefix = $(230)$r
 #
 #current_item_suffix = $/r$(end)
 #
-#current_item_inactive_column_prefix = $(white)$r
+current_item_inactive_column_prefix = $(240_230)$r
 #
 #current_item_inactive_column_suffix = $/r$(end)
 #
@@ -276,7 +276,7 @@ visualizer_look = "+|"
 ## Note: Custom command that will be executed each time song changes. Useful for
 ## notifications etc.
 ##
-#execute_on_song_change = ""
+execute_on_song_change = "python ~/notify-ncmpcpp.py"
 #
 ##
 ## Note: Custom command that will be executed each time player state
@@ -311,7 +311,7 @@ visualizer_look = "+|"
 #
 #incremental_seeking = yes
 #
-#seek_time = 1
+seek_time = 2
 #
 #volume_change_step = 2
 #
@@ -368,7 +368,7 @@ media_library_primary_tag = album_artist
 #
 #store_lyrics_in_song_dir = no
 #
-#generate_win32_compatible_filenames = yes
+generate_win32_compatible_filenames = no
 #
 #allow_for_physical_item_deletion = no
 #
@@ -426,7 +426,7 @@ media_library_primary_tag = album_artist
 #
 #display_volume_level = yes
 #
-#display_bitrate = no
+display_bitrate = yes
 #
 #display_remaining_time = no
 #
@@ -519,7 +519,7 @@ media_library_primary_tag = album_artist
 #
 #empty_tag_color = cyan
 #
-#header_window_color = default
+header_window_color = 86
 #
 #volume_color = default
 #
@@ -527,15 +527,15 @@ media_library_primary_tag = album_artist
 #
 #state_flags_color = default:b
 #
-#main_window_color = yellow
+main_window_color = 230
 #
 #color1 = white
 #
 #color2 = green
 #
-#progressbar_color = black:b
+progressbar_color = 242:b
 #
-#progressbar_elapsed_color = green:b
+progressbar_elapsed_color = cyan:b
 #
 #statusbar_color = default
 #
@@ -543,7 +543,7 @@ media_library_primary_tag = album_artist
 #
 #player_state_color = default:b
 #
-#alternative_ui_separator_color = black:b
+alternative_ui_separator_color = white:b
 #
 #window_border_color = green
 #

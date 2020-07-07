@@ -3,14 +3,19 @@
 " - Avoid using standard Vim directory names like 'plugin'
 call plug#begin('~/.local/share/nvim/plugged')
 
+Plug 'tpope/vim-sensible'
+Plug 'airblade/vim-gitgutter'
 Plug 'joshdick/onedark.vim'
-Plug 'thaerkh/vim-indentguides'
-Plug 'scrooloose/nerdtree'
+Plug 'dylanaraps/wal.vim'
+Plug 'Yggdroot/indentLine'
+Plug 'vifm/vifm.vim'
 Plug 'ryanoasis/vim-devicons'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'jlanzarotta/bufexplorer'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-commentary'
+Plug 'vimwiki/vimwiki'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Initialize plugin system
@@ -19,7 +24,7 @@ call plug#end()
 " Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
 " If you're using tmux version 2.2 or later, you can remove the outermost $TMUX check and use tmux's 24-bit color support
 " (see < http://sunaku.github.io/tmux-24bit-color.html#usage > for more information.)
-if (empty($TMUX))
+if 0 "(empty($TMUX))
         if (has("nvim"))
                 " For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
                 let $NVIM_TUI_ENABLE_TRUE_COLOR=1
@@ -35,11 +40,11 @@ endif
 " Configure one dark
 
 let g:onedark_color_overrides = {
-        \ "black": { "gui": "#2B2F37", "cterm": "236", "cterm16": "0" },
+        \ "black": { "gui": "#2B2F37", "cterm": "0", "cterm16": "0" },
         \ "comment_grey": { "gui": "#6C7380", "cterm": "59", "cterm16": "15" },
-\}
+\ }
 
-if (has("autocmd"))
+if (has("autocmd") && 1 == 2)
         augroup colorextend
                 autocmd!
                 autocmd ColorScheme * call onedark#extend_highlight("Function", { "gui": "bold" })
@@ -51,17 +56,22 @@ endif
 
 let g:onedark_terminal_italics=1
 
-colo onedark
+colo wal
+" For wal colorscheme
+hi Normal ctermbg=0
 
-se tabstop=4 shiftwidth=4 softtabstop=0 noexpandtab
+" Indentation
+set expandtab
+set shiftwidth=4
+set softtabstop=4
 " Shows line numbers
 se nu
 " for showing invisible characters without vim-indentguides:
 " se list
 " se listchars=tab:»\ ,extends:›,precedes:‹,nbsp:·,trail:·
 se showbreak=↪\
-se cul
-let &colorcolumn=join(range(81,999),",")
+"se cul
+"let &colorcolumn=join(range(81,999),",")
 
 " Map ` to go to next buffer
 nmap ` :bn<cr>
@@ -84,23 +94,28 @@ vnoremap <A-k> :m '<-2<CR>gv=gv
 " inoremap \" \""<Esc>i
 " inoremap { {}<Esc>i
 
-" Configure vim-indentguides
-" default for spaces: ┆, for tabs: |
-let g:indentguides_spacechar = '│'
-let g:indentguides_tabchar = '│'
+" Configure indentLine
+let g:indentLine_char = '│'
+let g:indentLine_concealcursor = 'nc'
 
+" Configure vim-gitgutter
+nmap ]h <Plug>(GitGutterNextHunk)
+nmap [h <Plug>(GitGutterPrevHunk)
+nmap ghs <Plug>(GitGutterStageHunk)
+nmap ghu <Plug>(GitGutterUndoHunk)
+nmap ghp <Plug>(GitGutterPreviewHunk)
 
-" Configure NERDTree
-map <C-e> :NERDTreeToggle<CR>
+" Configure vifm.vim
+map <C-n> :Vifm<CR>
+map <C-k> :VsplitVifm<CR>
 
-" Configure NERDTree Syntax Highlight
-let g:NERDTreeFileExtensionHighlightFullName = 1
-let g:NERDTreeExactMatchHighlightFullName = 1
-let g:NERDTreePatternMatchHighlightFullName = 1
+" vimwiki
+set nocompatible
+filetype plugin on
 
 " Configure vim-airline
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_theme='onedark'
+let g:airline_theme = 'onedark'
 " powerline symbols
 let g:airline_powerline_fonts = 1
 

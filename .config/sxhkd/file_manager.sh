@@ -1,3 +1,3 @@
 #!/usr/bin/zsh
-source ~/.zshrc
+. ~/.zshrc
 vifm
