@@ -1,0 +1,4 @@
+#!/bin/sh
+
+STDIN=$(cat)
+xclip -sel clip -t image/png -i '/home/aravk/Pictures/emoji/'$STDIN'.png'

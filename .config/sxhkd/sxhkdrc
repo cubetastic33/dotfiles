@@ -1,29 +1,65 @@
 #
-# wm independent hotkeys
+# WM independent hotkeys
 #
 
-# terminal emulator
-super + Return
+# alacritty
+hyper + Return
     alacritty
 
+# with numpad enter key
+hyper + KP_Enter
+    alacritty
+
+# kitty
+hyper + shift + Return
+    kitty
+
+# with numpad enter key
+hyper + shift + KP_Enter
+    kitty
+
+# dmenu
+alt + F2
+    dmenu_run
+
 # program launcher
-super + space
+hyper + space
     rofi -show drun -show-icons
 
 # window switcher
-super + a
+hyper + a
     rofi -show window -show-icons
 
+# custom emoji
+hyper + e
+    ls ~/Pictures/emoji | sed -n 's/\.png$//p' | dmenu -p emoji | ~/scripts/copy_image
+
 # vifm
-super + v
-    alacritty -e ~/.config/sxhkd/file_manager.sh
+hyper + v
+    alacritty -e ~/.config/vifm/scripts/vifmrun
+
+# zathura
+hyper + z
+    zathura
+
+# tabbed surf
+hyper + alt + s
+    tabbed -cd surf -e
+
+# dad mode
+hyper + d
+    dunstctl set-paused true && touch ~/dad && cp ~/Documents/newtab/home_en.html ~/Documents/newtab/index.html
+
+# undo dad mode
+hyper + ctrl + d
+    dunstctl set-paused false && rm ~/dad && cp ~/Documents/newtab/home_jp.html ~/Documents/newtab/index.html
 
 # lock screen
-super + control + L
+hyper + control + L
     xset s activate
 
 # make sxhkd reload its configuration files:
-super + Escape
+hyper + Escape
     pkill -USR1 -x sxhkd
 
 #
@@ -48,18 +84,18 @@ XF86AudioMute
 
 # Increase the brightness
 XF86MonBrightnessUp
-    light -A 1 && echo $(light -G) > xobbklpipe
+    light -A 1 && echo (light -G) > xobbklpipe
 
 # Decrease the brightness
 XF86MonBrightnessDown
-    light -U 1 && echo $(light -G) > xobbklpipe
+    light -U 1 && echo (light -G) > xobbklpipe
 
 # Set the brightness to 0
-super + control + x
+hyper + control + x
     light -S 0
 
 # Set the brightness to 30%
-super + control + shift + x
+hyper + control + shift + x
     light -S 30
 
 #
@@ -68,26 +104,26 @@ super + control + shift + x
 
 # Play/Pause
 XF86AudioPlay
-    playerctl play-pause --player=spotify
+    playerctl play-pause
 
 # Next
 XF86AudioNext
-    playerctl next --player=spotify
+    playerctl next
 
 # Previous
 XF86AudioPrev
-    playerctl previous --player=spotify
+    playerctl previous
 
 # MPD controls
 
 # Play/Pause
-super + alt + space
+hyper + alt + space
     mpc toggle
 
-super + comma
+hyper + comma
     mpc prev
 
-super + period
+hyper + period
     mpc next
 
 #
@@ -96,34 +132,38 @@ super + period
 
 # Take a full-screen screenshot and save it
 Print
-    maim ~/Pictures/screenshots/screenshot-$(date +%s).png
+    maim | xclip -sel clip -t image/png
 
 # Take a full-screen screenshot and copy it to the clipboard
 control + Print
-    maim | xclip -selection clipboard -t image/png
+    maim ~/Pictures/screenshots/screenshot-(date +%s).png
 
 # Take a screenshot of a region of the screen and save it
 shift + Print
-    maim -u -s ~/Pictures/screenshots/screenshot-$(date +%s).png
+    maim -u -s | xclip -sel clip -t image/png
 
 # Take a screenshot of a region and copy it to the clipboard
 control + shift + Print
-    maim -u -s | xclip -selection clipboard -t image/png
+    maim -u -s ~/Pictures/screenshots/screenshot-(date +%s).png
+
+# Take a screenshot of a region and display it
+hyper + shift + Print
+    screenshot_overlay
 
 #
 # bspwm hotkeys
 #
 
 # quit/restart bspwm
-super + alt + {q,r}
-    bspc {quit,wm -r}
+hyper + alt + r
+    bspc wm -r
 
 # close and kill
-super + {_,shift + }q
+hyper + {_,shift + }q
     bspc node -{c,k}
 
 # alternate between the tiled and monocle layout
-super + m
+hyper + m
     bspc desktop -l next
 
 #
@@ -131,11 +171,11 @@ super + m
 #
 
 # set the window state
-super + {t,shift + t,s,f}
+hyper + {t,shift + t,s,f}
     bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
 
 # set the node flags
-super + ctrl + {m,x,y,z}
+hyper + control + {m,y,s,p}
     bspc node -g {marked,locked,sticky,private}
 
 #
@@ -143,67 +183,74 @@ super + ctrl + {m,x,y,z}
 #
 
 # focus the node in the given direction
-super + {_,shift + }{h,j,k,l}
+hyper + {_,shift + }{h,j,k,l}
     bspc node -{f,s} {west,south,north,east}
 
 # focus the node for the given path jump
-super + {p,b,comma,period}
+hyper + {p,b,comma,period}
     bspc node -f @{parent,brother,first,second}
 
 # focus the next/previous node in the current desktop
-super + {_,shift + }c
-    bspc node -f {next,prev}.local
+hyper + {_,shift + }c
+    bspc node -f {next,prev}.local.window
 
 # focus the next/previous desktop in the current monitor
-super + bracket{left,right}
-    bspc desktop -f {prev,next}.local
+hyper + bracket{left,right}
+    ~/.config/sxhkd/hack_fix.sh focus {prev,next}.local
+
+# focus the next/previous desktop in the current monitor
+hyper + shift + bracket{left,right}
+    ~/.config/sxhkd/hack_fix.sh focus {prev,next}.local.occupied
+
+# focus the last desktop
+hyper + backslash
+    ~/.config/sxhkd/hack_fix.sh focus last
 
 # focus the last desktop
 alt + space
-    bspc desktop -f last
+    ~/.config/sxhkd/hack_fix.sh focus last
 
 # focus the older or newer node in the focus history
-super + {o,i}
+hyper + {o,i}
     bspc wm -h off; \
     bspc node {older,newer} -f; \
     bspc wm -h on
 
 # focus or send to the given desktop
-super + {_,shift + }{1-9,0}
-    bspc {desktop -f,node -d} '^{1-9,10}'
+hyper + {_,shift + }{1-9,0}
+    ~/.config/sxhkd/hack_fix.sh {focus,send} '^{1-9,10}'
+
+hyper + alt + {_,shift + }{1-9,0}
+    ~/.config/sxhkd/hack_fix.sh {focus,send} '^{11,12,13,14,15,16,17,18,19,20}'
 
 #
 # preselect
 #
 
 # preselect the direction
-super + ctrl + {h,j,k,l}
+hyper + ctrl + {h,j,k,l}
     bspc node -p {west,south,north,east}
 
 # preselect the ratio
-super + ctrl + {1-9}
+hyper + ctrl + {1-9}
     bspc node -o 0.{1-9}
 
 # cancel the preselection for the focused node
-super + ctrl + c
+hyper + ctrl + c
     bspc node -p cancel
-
-# cancel the preselection for the focused desktop
-super + ctrl + shift + space
-    bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
 
 #
 # move/resize
 #
 
-# expand a window by moving one of its side outward
-super + alt + {h,j,k,l}
+# expand a window by moving one of its sides outward
+hyper + alt + {Left,Down,Up,Right}
     bspc node -z {left -10 0,bottom 0 10,top 0 -10,right 10 0}
 
 # contract a window by moving one of its side inward
-super + alt + shift + {h,j,k,l}
+hyper + alt + shift + {Left,Down,Up,Right}
     bspc node -z {right -10 0,top 0 10,bottom 0 -10,left 10 0}
 
 # move a floating window
-super + {Left,Down,Up,Right}
+hyper + {Left,Down,Up,Right}
     bspc node -v {-20 0,0 20,0 -20,20 0}

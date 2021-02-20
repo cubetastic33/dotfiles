@@ -1,4 +1,5 @@
 #!/bin/sh
+
 /usr/bin/acpi -b | /usr/bin/awk -F'[,:%]' '{print $2, $3}' | {
     read -r status capacity
 

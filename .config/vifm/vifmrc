@@ -1,5 +1,5 @@
 " vim: filetype=vifm :
-" Sample configuration file for vifm (last updated: 2 June, 2019)
+" Sample configuration file for vifm (last updated: 9 September, 2020)
 " You can edit this file by hand.
 " The " character at the beginning of a line comments out the line.
 " Blank lines are ignored.
@@ -58,13 +58,13 @@ set undolevels=100
 set vimhelp
 
 " If you would like to run an executable file when you
-" press return on the file name set this.
+" press Enter, l or Right Arrow, set this.
 
 set norunexec
 
-" Selected color scheme
+" List of color schemes to try (picks the first one supported by the terminal)
 
-colorscheme dracula
+colorscheme palenight Default
 
 " Format for displaying time in file list. For example:
 " TIME_STAMP_FORMAT=%m/%d-%H:%M
@@ -100,7 +100,7 @@ set incsearch
 
 " Try to leave some space from cursor to upper/lower border in lists
 
-set scrolloff=2
+set scrolloff=4
 
 " Don't do too many requests to slow file systems
 
@@ -140,7 +140,7 @@ command! run !! ./%f
 command! make !!make %a
 command! mkcd :mkdir %a | cd %a
 command! vgrep vim "+grep %a"
-command! reload :write | restart
+command! reload :write | restart full
 
 " ------------------------------------------------------------------------------
 
@@ -149,7 +149,7 @@ command! reload :write | restart
 " :filetype pattern1,pattern2 defaultprogram,program2
 " :fileviewer pattern1,pattern2 consoleviewer
 " The other programs for the file type can be accessed with the :file command
-" The command macros %f, %F, %d, %F may be used in the commands.
+" The command macros like %f, %F, %d, %D may be used in the commands.
 " The %a macro is ignored.  To use a % you must put %%.
 
 " For automated FUSE mounts, you must register an extension with :file[x]type
@@ -171,55 +171,65 @@ command! reload :write | restart
 " program.
 
 " Pdf
-filextype *.pdf zathura %c %i &, apvlv %c, xpdf %c
+filextype {*.pdf},<application/pdf> zathura %c %i &, apvlv %c, xpdf %c
 fileviewer *.pdf
         \ vifmimg pdfpreview %px %py %pw %ph %c
         \ %pc
         \ vifmimg clear
 
+" Epub
+filextype *.epub
+       \ {Open with zathura}
+       \ zathura %c
+fileviewer *.epub
+        \ vifmimg epubpreview %px %py %pw %ph %c
+        \ %pc
+        \ vifmimg clear
+
 " PostScript
-filextype *.ps,*.eps,*.ps.gz
+filextype {*.ps,*.eps,*.ps.gz},<application/postscript>
         \ {View in zathura}
         \ zathura %f,
         \ {View in gv}
         \ gv %c %i &,
 
 " Djvu
-filextype *.djvu
+filextype {*.djvu},<image/vnd.djvu>
         \ {View in zathura}
         \ zathura %f,
         \ {View in apvlv}
         \ apvlv %f,
 
 " Audio
-filetype *.wav,*.mp3,*.flac,*.m4a,*.wma,*.ape,*.ac3,*.og[agx],*.spx,*.opus
+filetype {*.wav,*.mp3,*.flac,*.m4a,*.wma,*.ape,*.ac3,*.og[agx],*.spx,*.opus},
+        \<audio/*>
        \ {Play using ffplay}
        \ ffplay -nodisp -autoexit %c,
-       \ {Play using MPlayer}
-       \ mplayer %f,
-fileviewer <audio/*>
-        \ vifmimg audiopreview %px %py %pw %ph %c
-        \ %pc
-        \ vifmimg clear
+       \ {Play using mpv}
+       \ mpv %f,
+fileviewer {*.mp3},<audio/mpeg> mp3info
+fileviewer {*.flac},<audio/flac> soxi
 
 " Video
-filextype *.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,
-         \*.fl[icv],*.m2v,*.mov,*.webm,*.ts,*.mts,*.m4v,*.r[am],*.qt,*.divx,
-         \*.as[fx]
-        \ {View using VLC}
-        \ vlc %f,
-        \ {View using mplayer}
-        \ mplayer %f,
+filextype {*.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,
+          \*.fl[icv],*.m2v,*.mov,*.webm,*.ts,*.mts,*.m4v,*.r[am],*.qt,*.divx,
+          \*.as[fx]},
+         \<video/*>
+        \ {View using mpv}
+        \ mpv --fs %f,
         \ {View using ffplay}
         \ ffplay -fs -autoexit %f,
         \ {View using Dragon}
         \ dragon %f:p,
-fileviewer *.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,
-          \*.fl[icv],*.m2v,*.mov,*.webm,*.ts,*.mts,*.m4v,*.r[am],*.qt,*.divx,
-          \*.as[fx]
-          \ vifmimg videopreview %px %py %pw %ph %c
-          \ %pc
-          \ vifmimg clear
+        \ {View using mplayer}
+        \ mplayer %f,
+fileviewer {*.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,
+           \*.fl[icv],*.m2v,*.mov,*.webm,*.ts,*.mts,*.m4v,*.r[am],*.qt,*.divx,
+           \*.as[fx]},
+          \<video/*>
+         \ vifmimg videopreview %px %py %pw %ph %c
+         \ %pc
+         \ vifmimg clear
 
 " Fonts
 fileviewer <font/*>
@@ -228,23 +238,28 @@ fileviewer <font/*>
         \ vifmimg clear
 
 " Web
-filextype *.html,*.htm
+filextype {*.html,*.htm},<text/html>
         \ {Open with dwb}
         \ dwb %f %i &,
         \ {Open with firefox}
         \ firefox %f &,
         \ {Open with uzbl}
         \ uzbl-browser %f %i &,
-filetype *.html,*.htm links, lynx
+filetype {*.html,*.htm},<text/html> links, lynx
 
 " Object
-filetype *.o nm %f | less
+filetype {*.o},<application/x-object> nm %f | less
 
 " Man page
-filetype *.[1-8] man ./%c
-fileviewer *.[1-8] man ./%c | col -b
+filetype {*.[1-8]},<text/troff> man ./%c
+fileviewer {*.[1-8]},<text/troff> man ./%c | col -b
 
-" Images
+" GIFs
+filextype *.gif
+        \ {View in imv}
+        \ imv -fs shrink %f,
+
+" Other images
 filextype *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm,*.webp
         \ {View in feh}
         \ feh -F -\| %f,
@@ -290,41 +305,50 @@ filetype *.sha512
        \ sha512sum -c %f %S,
 
 " GPG signature
-filetype *.asc
+filetype {*.asc},<application/pgp-signature>
        \ {Check signature}
        \ !!gpg --verify %c,
 
 " Torrent
-filetype *.torrent ktorrent %f &
-fileviewer *.torrent dumptorrent -v %c
+filetype {*.torrent},<application/x-bittorrent> ktorrent %f &
+fileviewer {*.torrent},<application/x-bittorrent> dumptorrent -v %c
 
-" FuseZipMount
-filetype *.zip,*.jar,*.war,*.ear,*.oxt,*.apkg
-       \ {Mount with fuse-zip}
-       \ FUSE_MOUNT|fuse-zip %SOURCE_FILE %DESTINATION_DIR,
-       \ {View contents}
-       \ zip -sf %c | less,
-       \ {Extract here}
-       \ tar -xf %c,
-fileviewer *.zip,*.jar,*.war,*.ear,*.oxt zip -sf %c
-
-" ArchiveMount
-filetype *.tar,*.tar.bz2,*.tbz2,*.tgz,*.tar.gz,*.tar.xz,*.txz
-       \ {Mount with archivemount}
-       \ FUSE_MOUNT|archivemount %SOURCE_FILE %DESTINATION_DIR,
+" Archive
+filetype {*.tar,*.tar.bz2,*.tbz2,*.tgz,*.tar.gz,*.tar.xz,*.txz},
+        \<application/x-tar>
+       \ {Open with xarchiver}
+       \ xarchiver %c
 fileviewer *.tgz,*.tar.gz tar -tzf %c
 fileviewer *.tar.bz2,*.tbz2 tar -tjf %c
 fileviewer *.tar.txz,*.txz xz --list %c
-fileviewer *.tar tar -tf %c
+fileviewer {*.tar},<application/x-tar> tar -tf %c
 
-" Rar2FsMount and rar archives
-filetype *.rar
-       \ {Mount with rar2fs}
-       \ FUSE_MOUNT|rar2fs %SOURCE_FILE %DESTINATION_DIR,
-fileviewer *.rar unrar v %c
+" Zip and some other archives
+filetype {*.zip,*.jar,*.war,*.ear,*.oxt,*.apkg},
+        \<application/zip,application/java-archive>
+       \ {Open with xarchiver}
+       \ xarchiver %c
+fileviewer *.zip,*.jar,*.war,*.ear,*.oxt zip -sf %c
+
+" Rar archive
+filetype {*.rar},<application/x-rar>
+       \ {Open with xarchiver}
+       \ xarchiver %c
+fileviewer {*.rar},<application/x-rar> unrar v %c
+
+" Fuse7z and 7z archives
+filetype {*.7z},<application/x-7z-compressed>
+       \ {Open with xarchiver}
+       \ xarchiver %c
+fileviewer {*.7z},<application/x-7z-compressed> 7z l %c
+
+" Comic book archive
+filextype *.cbz,*.cbr
+       \ {Open with zathura}
+       \ zathura %c
 
 " IsoMount
-filetype *.iso
+filetype {*.iso},<application/x-iso9660-image>
        \ {Mount with fuseiso}
        \ FUSE_MOUNT|fuseiso %SOURCE_FILE %DESTINATION_DIR,
 
@@ -338,16 +362,17 @@ filetype *.ftp
        \ {Mount with curlftpfs}
        \ FUSE_MOUNT2|curlftpfs -o ftp_port=-,,disable_eprt %PARAM %DESTINATION_DIR %FOREGROUND,
 
-" Fuse7z and 7z archives
-filetype *.7z
-       \ {Mount with fuse-7z}
-       \ FUSE_MOUNT|fuse-7z %SOURCE_FILE %DESTINATION_DIR,
-fileviewer *.7z 7z l %c
-
 " Office files
-filextype *.odt,*.doc,*.docx,*.xls,*.xlsx,*.odp,*.pptx libreoffice %f &
-fileviewer *.doc catdoc %c
-fileviewer *.docx docx2txt.pl %f -
+filextype {*.odt,*.doc,*.docx,*.xls,*.xlsx,*.odp,*.pptx,*.ppt},
+         \<application/vnd.openxmlformats-officedocument.*,
+          \application/msword,
+          \application/vnd.ms-excel>
+        \ libreoffice %f &
+fileviewer {*.doc},<application/msword> catdoc %c
+fileviewer {*.docx},
+          \<application/
+           \vnd.openxmlformats-officedocument.wordprocessingml.document>
+         \ docx2txt.pl %f -
 
 " TuDu files
 filetype *.tudu tudu -f %c
@@ -408,7 +433,7 @@ set vifminfo=dhistory,savedirs,chistory,state,tui,shistory,
 
 " Filter-out build and temporary files
 "
-" filter! /^.*\.(lo|o|d|class|py[co])$|.*~$/
+" filter! {*.lo,*.o,*.d,*.class,*.pyc,*.pyo,.*~}
 
 " ------------------------------------------------------------------------------
 
@@ -461,7 +486,7 @@ nnoremap A cw
 nnoremap ,t :!xterm &<cr>
 
 " Open editor to edit vifmrc and apply settings after returning to vifm
-nnoremap ,c :write | edit $MYVIFMRC | restart<cr>
+nnoremap ,c :write | edit $MYVIFMRC | restart full<cr>
 " Open gvim to edit vifmrc
 nnoremap ,C :!gvim --remote-tab-silent $MYVIFMRC &<cr>
 
@@ -475,6 +500,14 @@ nnoremap <f5> :copy<cr>
 nnoremap <f6> :move<cr>
 nnoremap <f7> :mkdir<space>
 nnoremap <f8> :delete<cr>
+
+" Midnight commander alike mappings
+" Open current directory in the other pane
+nnoremap <a-i> :sync<cr>
+" Open directory under cursor in the other pane
+nnoremap <a-o> :sync %c<cr>
+" Swap panes
+nnoremap <c-u> <c-w>x
 
 " ------------------------------------------------------------------------------
 
@@ -505,4 +538,4 @@ nnoremap <f8> :delete<cr>
 map > :!vifmimg inc<CR>
 map < :!vifmimg dec<CR>
 
-source ~/.config/vifm/vifm_devicons/SETUP
+source ~/.config/vifm/vifm_devicons/favicons.vifm

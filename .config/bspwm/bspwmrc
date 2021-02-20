@@ -1,57 +1,83 @@
-#! /bin/sh
+#!/bin/sh
+
+# Autostart programs
 
 # Hotkey daemon
-sxhkd &
-# Compositor
-picom -b
+pgrep -x sxhkd > /dev/null || sxhkd &
+
+# Set brightness to 30
+light -S 30
+
 # Wallpaper
-~/.fehbg &
-wal -neR
+~/.fehbg
+
+# Compositor
+picom --experimental-backends -b
+
 # Notification server
 dunst &
-# WiFi menu
-nm-applet &
-# Bluetooth manager
-blueman-applet &
-# Optimus manager GUI
-optimus-manager-qt &
-# IBus
-export GTK_IM_MODULE=ibus
-export XMODIFIERS=@im=ibus
-export QT_IM_MODULE=ibus
-ibus-daemon -drx
+
+# Kill previous xob instances
+pkill xob
+
 # Volume bar
 tail -f xobvolpipe | xob -s volume &
+
 # Brighness bar
 tail -f xobbklpipe | xob -s backlight &
-# MPD notifications
-python $HOME/notify-mpd.py &
+
 # Status bar
 $HOME/.config/polybar/launch.sh
+
+# MPD notifications
+$HOME/scripts/mpd_notifications.py &
+
+# Input method framework
+fcitx5 &
+
+# MangoJuice
+MangoJuice
+
+# MPD
+[ ! -s ~/.config/mpd/pid ] && mpd
+
 # Touchpad gestures
-$HOME/.config/gebaar/launch.sh
-# Lock screen
-xss-lock -n /usr/lib/xsecurelock/dimmer -l -- env XSECURELOCK_AUTH_BACKGROUND_COLOR='#efed86' XSECURELOCK_AUTH_FOREGROUND_COLOR='#212121' XSECURELOCK_FONT='iosevka' xsecurelock &
+libinput-gestures-setup start
 
-bspc monitor -d I II III IV V VI VII VIII IX X
-# When an external monitor is connected through the HDMI port
-# bspc monitor eDP-1 -d I II III IV V
-# bspc monitor HDMI-1 -d VI VII VIII IX X
+# Window swallower
+export PIDSWALLOW_TERMINAL='alacritty'
+export PIDSWALLOW_SWALLOW_COMMAND='bspc node $pwid --flag hidden=on'
+export PIDSWALLOW_VOMIT_COMMAND='bspc node $pwid --flag hidden=off'
+pgrep -fl 'pidswallow -l' || pidswallow -l &
 
-bspc config window_gap            6
-bspc config border_width          1
-bspc config border_radius         3
-bspc config gapless_monocle       true
-bspc config borderless_monocle    true
-bspc config focus_follows_pointer true
+# Lockscreen
+xset s 600 7
+xss-lock -n /usr/lib/xsecurelock/dimmer -l -- env XSECURELOCK_AUTH_BACKGROUND_COLOR='#000000' XSECURELOCK_AUTH_FOREGROUND_COLOR='#FFFFFF' XSECURELOCK_FONT='iosevka' XSECURELOCK_COMPOSITE_OBSCURER=0 XSECURELOCK_SAVER='saver_feh' XSECURELOCK_IMAGE_PATH="$HOME/Pictures/lockscreen.jpg" XSECURELOCK_BLANK_TIMEOUT=15 xsecurelock &
 
-# source the colors.
-. "${HOME}/.cache/wal/colors.sh"
+# bspwm config
+
+bspc monitor -d I II III IV V VI VII VIII IX X XI XII XIII XIV XV XVI XVII XVIII XIX XX
+
+bspc config border_width           1
+bspc config window_gap             7
+
+bspc config split_ratio            0.5
+bspc config borderless_monocle     true
+bspc config gapless_monocle        false
+bspc config left_monocle_padding   -7
+bspc config right_monocle_padding  -7
+bspc config bottom_monocle_padding -7
+bspc config focus_follows_pointer  true
 
 # Set the border colors.
-bspc config normal_border_color "$color4"
-bspc config active_border_color "$color15"
-bspc config focused_border_color "$color3"
-bspc config presel_border_color "$color4"
+bspc config normal_border_color   "#858585"
+bspc config active_border_color   "#efe383"
+bspc config focused_border_color  "#000000"
+bspc config presel_border_color   "#efe383"
 
-bspc rule -a discord desktop=^3
+# Rules to open certain apps in specific desktops by default
+bspc rule -a Transmission-gtk desktop=^10
+bspc rule -a discord desktop=^11
+bspc rule -a Anki desktop=^12
+bspc rule -a zoom desktop=^13
+bspc rule -a Element desktop=^14

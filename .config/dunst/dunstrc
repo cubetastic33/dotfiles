@@ -176,12 +176,12 @@
     sticky_history = yes
 
     # Maximum amount of notifications kept in history
-    history_length = 20
+    history_length = 30
 
     ### Misc/Advanced ###
 
     # dmenu path.
-    dmenu = /usr/bin/dmenu -p dunst:
+    dmenu = /usr/bin/rofi -dmenu -p dunst:
 
     # Browser for opening urls in context menu.
     browser = /usr/bin/firefox-nightly -new-tab
@@ -259,10 +259,10 @@
     # Xev might be helpful to find names for keys.
 
     # Close notification.
-    close = ctrl+space
+    close = mod1+c
 
     # Close all notifications.
-    close_all = ctrl+shift+space
+    close_all = mod1+shift+c
 
     # Redisplay last message(s).
     # On the US keyboard layout "grave" is normally above TAB and left

@@ -12,8 +12,8 @@ AUTO_REMOVE="yes"
 
 # The messy code below is for moving pages in pdf files in the vifm file preview by
 # utilizing the < and > keys which will be bound to `vifmimg inc` or `vifmimg dec`.
-PDF_PAGE_CONFIG="$HOME/.config/vifm/vifmimgpdfpage"
-PDF_FILE_CONFIG="$HOME/.config/vifm/vifmimgpdffile"
+PDF_PAGE_CONFIG="/tmp/vifmimgpdfpage"
+PDF_FILE_CONFIG="/tmp/vifmimgpdffile"
 PDF_PAGE=1
 PDF_FILE=""
 # Initialize the variables and required files
@@ -33,7 +33,7 @@ function offset_x() {
     fi
     # TODO make global
     fontw=7 # Size of one terminal column
-    fonth=16 # Size of one terminal row
+    fonth=14 # Size of one terminal row
     img_width=$(identify -format "%w" "$4")> /dev/null
     img_height=$(identify -format "%h" "$4")> /dev/null
     x_constraint=$(( $2 * fontw ))
@@ -58,7 +58,7 @@ function offset_y() {
         return 1
     fi
     fontw=7 # Size of one terminal column
-    fonth=16 # Size of one terminal row
+    fonth=14 # Size of one terminal row
     img_width=$(identify -format "%w" "$4")> /dev/null
     img_height=$(identify -format "%h" "$4")> /dev/null
     x_constraint=$(( $2 * fontw ))

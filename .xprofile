@@ -1,0 +1,15 @@
+# .xprofile
+# Use this instead of .xinitrc because that won't be sourced when using a DM
+test -f ~/.Xkeymap && xkbcomp ~/.Xkeymap $DISPLAY
+xcape -e 'Hyper_L=Tab;Hyper_R=backslash'
+
+# Fix JetBrains IDEs
+export _JAVA_AWT_WM_NONREPARENTING=1
+
+# Set default editor
+export EDITOR=nvim
+
+if test -z "$DBUS_SESSION_BUS_ADDRESS" ; then
+    # if not found, launch a new one
+    eval `dbus-launch --sh-syntax`
+fi

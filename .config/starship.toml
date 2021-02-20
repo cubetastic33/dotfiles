@@ -1,0 +1,120 @@
+# Don't print a new line at the start of the prompt
+add_newline = false
+
+[directory]
+# Don't show parent directories
+truncation_length = 1
+
+[python]
+# Only show venv
+format = '[(\($virtualenv\) )]($style)'
+
+# [git_branch]
+# Change git branch display format
+# format = "[$symbol$branch]($style) "
+
+# Disable a bunch of modules I don't want
+[aws]
+disabled = true
+
+[battery]
+disabled = true
+
+[cmake]
+disabled = true
+
+[crystal]
+disabled = true
+
+[dart]
+disabled = true
+
+[docker_context]
+disabled = true
+
+[dotnet]
+disabled = true
+
+[elixir]
+disabled = true
+
+[elm]
+disabled = true
+
+[env_var]
+disabled = true
+
+[elang]
+disabled = true
+
+[gcloud]
+disabled = true
+
+[golang]
+disabled = true
+
+[helm]
+disabled = true
+
+[hostname]
+disabled = true
+
+[java]
+disabled = true
+
+[julia]
+disabled = true
+
+[kotlin]
+disabled = true
+
+[line_break]
+disabled = true
+
+[lua]
+disabled = true
+
+[nim]
+disabled = true
+
+[nix_shell]
+disabled = true
+
+[nodejs]
+disabled = true
+
+[ocaml]
+disabled = true
+
+[openstack]
+disabled = true
+
+[package]
+disabled = true
+
+[perl]
+disabled = true
+
+[php]
+disabled = true
+
+[purescript]
+disabled = true
+
+[ruby]
+disabled = true
+
+[rust]
+disabled = true
+
+[singularity]
+disabled = true
+
+[swift]
+disabled = true
+
+[terraform]
+disabled = true
+
+[zig]
+disabled = true

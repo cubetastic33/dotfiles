@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 import subprocess
 import os
 import mutagen
@@ -19,10 +21,12 @@ while True:
         while True:
             current_song = client.currentsong()
             client.idle()
+            # Enable to let ncmpcpp handle notifications when it is running:
             # Check if ncmpcpp is running because if it is then a different program
             # will be called to show the notification
-            if "ncmpcpp" in (p.name() for p in psutil.process_iter()):
-                continue
+            # if "ncmpcpp" in (p.name() for p in psutil.process_iter()):
+                # continue
+
             if client.currentsong()["file"] != current_song["file"]:
                 current_song = client.currentsong()
                 title = ""
