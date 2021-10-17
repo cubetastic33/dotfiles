@@ -38,6 +38,8 @@ something you can use as a reference.
 
 ![neofetch and pipes.sh](./screenshots/neofetch.png)
 
+![neovim](./screenshots./screenshots/neovim.png)
+
 ![ncmpcpp and cava](./screenshots/music.png)
 
 ![vifm with image preview](./screenshots/vifm.png)
