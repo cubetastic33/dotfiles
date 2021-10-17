@@ -1,12 +1,9 @@
-#!/bin/sh
+#! /bin/sh
 
 # Autostart programs
 
 # Hotkey daemon
 pgrep -x sxhkd > /dev/null || sxhkd &
-
-# Set brightness to 30
-light -S 30
 
 # Wallpaper
 ~/.fehbg
@@ -23,7 +20,7 @@ pkill xob
 # Volume bar
 tail -f xobvolpipe | xob -s volume &
 
-# Brighness bar
+# Brightness bar
 tail -f xobbklpipe | xob -s backlight &
 
 # Status bar
@@ -35,38 +32,31 @@ $HOME/scripts/mpd_notifications.py &
 # Input method framework
 fcitx5 &
 
-# MangoJuice
-MangoJuice
-
 # MPD
 [ ! -s ~/.config/mpd/pid ] && mpd
 
 # Touchpad gestures
 libinput-gestures-setup start
 
-# Window swallower
-export PIDSWALLOW_TERMINAL='alacritty'
-export PIDSWALLOW_SWALLOW_COMMAND='bspc node $pwid --flag hidden=on'
-export PIDSWALLOW_VOMIT_COMMAND='bspc node $pwid --flag hidden=off'
-pgrep -fl 'pidswallow -l' || pidswallow -l &
-
 # Lockscreen
-xset s 600 7
-xss-lock -n /usr/lib/xsecurelock/dimmer -l -- env XSECURELOCK_AUTH_BACKGROUND_COLOR='#000000' XSECURELOCK_AUTH_FOREGROUND_COLOR='#FFFFFF' XSECURELOCK_FONT='iosevka' XSECURELOCK_COMPOSITE_OBSCURER=0 XSECURELOCK_SAVER='saver_feh' XSECURELOCK_IMAGE_PATH="$HOME/Pictures/lockscreen.jpg" XSECURELOCK_BLANK_TIMEOUT=15 xsecurelock &
+xset s 600 10
+xss-lock -n /usr/lib/xsecurelock/dimmer -l -- env XSECURELOCK_PAM_SERVICE="xscreensaver" XSECURELOCK_AUTH_BACKGROUND_COLOR='#000000' XSECURELOCK_AUTH_FOREGROUND_COLOR='#FFFFFF' XSECURELOCK_FONT='iosevka' XSECURELOCK_COMPOSITE_OBSCURER=0 XSECURELOCK_SAVER='saver_feh' XSECURELOCK_IMAGE_PATH="$HOME/Pictures/lockscreen.jpg" XSECURELOCK_BLANK_TIMEOUT=15 XSECURELOCK_WAIT_TIME_MS=10 xsecurelock &
 
 # bspwm config
 
+# bspc monitor eDP-1 -d I II III IV V VI VII VIII IX X
+# bspc monitor DP-1 -d XI XII XIII XIV XV XVI XVII XVIII XIX XX
 bspc monitor -d I II III IV V VI VII VIII IX X XI XII XIII XIV XV XVI XVII XVIII XIX XX
 
 bspc config border_width           1
-bspc config window_gap             7
+bspc config window_gap             10
 
 bspc config split_ratio            0.5
 bspc config borderless_monocle     true
 bspc config gapless_monocle        false
-bspc config left_monocle_padding   -7
-bspc config right_monocle_padding  -7
-bspc config bottom_monocle_padding -7
+bspc config left_monocle_padding   -10
+bspc config right_monocle_padding  -10
+bspc config bottom_monocle_padding -10
 bspc config focus_follows_pointer  true
 
 # Set the border colors.
@@ -76,8 +66,12 @@ bspc config focused_border_color  "#000000"
 bspc config presel_border_color   "#efe383"
 
 # Rules to open certain apps in specific desktops by default
+bspc rule -a Pavucontrol desktop=^6
 bspc rule -a Transmission-gtk desktop=^10
 bspc rule -a discord desktop=^11
 bspc rule -a Anki desktop=^12
 bspc rule -a zoom desktop=^13
 bspc rule -a Element desktop=^14
+bspc rule -a Anydesk desktop=^19
+bspc rule -a Thunderbird desktop=^20
+bspc rule -a Mailspring desktop=^20

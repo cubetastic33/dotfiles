@@ -1,3 +1,4 @@
+command_timeout = 4000
 # Don't print a new line at the start of the prompt
 add_newline = false
 
@@ -44,7 +45,7 @@ disabled = true
 [env_var]
 disabled = true
 
-[elang]
+[erlang]
 disabled = true
 
 [gcloud]

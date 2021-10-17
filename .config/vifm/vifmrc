@@ -208,7 +208,10 @@ filetype {*.wav,*.mp3,*.flac,*.m4a,*.wma,*.ape,*.ac3,*.og[agx],*.spx,*.opus},
        \ {Play using mpv}
        \ mpv %f,
 fileviewer {*.mp3},<audio/mpeg> mp3info
-fileviewer {*.flac},<audio/flac> soxi
+fileviewer {*.flac},<audio/flac>
+        \ vifmimg audiopreview %px %py %pw %ph %c
+        \ %pc
+        \ vifmimg clear
 
 " Video
 filextype {*.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,
@@ -260,7 +263,7 @@ filextype *.gif
         \ imv -fs shrink %f,
 
 " Other images
-filextype *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm,*.webp
+filextype *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm,*.webp,*.tiff
         \ {View in feh}
         \ feh -F -\| %f,
         \ {View in sxiv}
@@ -269,7 +272,7 @@ filextype *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm,*.webp
         \ gpicview %c,
         \ {View in shotwell}
         \ shotwell,
-fileviewer *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm,*.webp
+fileviewer *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm,*.webp,*.tiff
         \ vifmimg draw %px %py %pw %ph %c
         \ %pc
         \ vifmimg clear
@@ -313,6 +316,11 @@ filetype {*.asc},<application/pgp-signature>
 filetype {*.torrent},<application/x-bittorrent> ktorrent %f &
 fileviewer {*.torrent},<application/x-bittorrent> dumptorrent -v %c
 
+" Comic book archive
+filextype *.cbz,*.cbr
+       \ {Open with zathura}
+       \ zathura %c
+
 " Archive
 filetype {*.tar,*.tar.bz2,*.tbz2,*.tgz,*.tar.gz,*.tar.xz,*.txz},
         \<application/x-tar>
@@ -341,11 +349,6 @@ filetype {*.7z},<application/x-7z-compressed>
        \ {Open with xarchiver}
        \ xarchiver %c
 fileviewer {*.7z},<application/x-7z-compressed> 7z l %c
-
-" Comic book archive
-filextype *.cbz,*.cbr
-       \ {Open with zathura}
-       \ zathura %c
 
 " IsoMount
 filetype {*.iso},<application/x-iso9660-image>
@@ -538,4 +541,4 @@ nnoremap <c-u> <c-w>x
 map > :!vifmimg inc<CR>
 map < :!vifmimg dec<CR>
 
-source ~/.config/vifm/vifm_devicons/favicons.vifm
+source /usr/share/vifm-devicons/favicons.vifm

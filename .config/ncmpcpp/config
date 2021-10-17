@@ -18,6 +18,10 @@ alternative_header_first_line_format = $b$7$aqqu$/a$9 {%t}|{%f} $7$atqq$/a$9$/b
 current_item_prefix = $(204)$r
 current_item_inactive_column_prefix = $(231_017)$r
 
+# Playlist settings
+playlist_display_mode = "columns"
+song_columns_list_format = "(35)[5]{a} (45)[6]{t} (5)[2]{l}"
+
 # Various settings
 seek_time = 2
 progressbar_look = ▬●▬

@@ -32,7 +32,7 @@ function offset_x() {
         return 1
     fi
     # TODO make global
-    fontw=7 # Size of one terminal column
+    fontw=6 # Size of one terminal column
     fonth=14 # Size of one terminal row
     img_width=$(identify -format "%w" "$4")> /dev/null
     img_height=$(identify -format "%h" "$4")> /dev/null

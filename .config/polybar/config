@@ -20,10 +20,10 @@ theme3 = #bc011d
 
 [bar/left]
 width = 210
-height = 27
-offset-x = 7
-offset-y = 7
-padding-left = 2
+height = 30
+offset-x = 10
+offset-y = 10
+padding-left = 3
 radius = 15
 fixed-center = false
 override-redirect = true
@@ -31,8 +31,8 @@ override-redirect = true
 background = ${colors.background}
 foreground = ${colors.foreground}
 
-font-0 = fixed:pixelsize=10;1
-font-1 = Material Icons:size=10;1
+font-0 = fixed:pixelsize=11;2
+font-1 = Material Icons Round:size=11;2
 
 modules-left = network
 
@@ -43,9 +43,9 @@ wm-restack = bspwm
 
 [bar/time]
 width = 500
-height = 27
+height = 30
 offset-x = 50%:-250
-offset-y = 7
+offset-y = 10
 radius = 15
 fixed-center = true
 override-redirect = true
@@ -53,8 +53,8 @@ override-redirect = true
 background = ${colors.background}
 foreground = ${colors.foreground}
 
-font-0 = fixed:pixelsize=10;1
-font-1 = Noto Sans CJK JP:pixelsize=10;1
+font-0 = fixed:pixelsize=11;2
+font-1 = Noto Sans CJK JP:pixelsize=11;2
 
 modules-center = jp_date
 
@@ -62,17 +62,17 @@ wm-restack = bspwm
 
 [bar/right]
 width = 210
-height = 27
-offset-x = 100%:-217
-offset-y = 7
+height = 30
+offset-x = 100%:-220
+offset-y = 10
 radius = 15
 
 background = ${colors.background}
 foreground = ${colors.foreground}
 
-font-0 = fixed:pixelsize=10;1
-font-1 = Font Awesome 5 Free Solid:size=9;1
-font-2 = Material Icons:size=10;1
+font-0 = fixed:pixelsize=11;2
+font-1 = Font Awesome 5 Free Solid:size=10;1
+font-2 = Material Icons Round:size=11;2
 
 modules-center = memory pulseaudio battery
 
@@ -109,7 +109,7 @@ ramp-volume-2 = %{T0}
 
 [module/network]
 type = internal/network
-interface = wlan0
+interface = wlp0s20f3
 interval = 3.0
 
 format-connected = <label-connected>
@@ -198,3 +198,5 @@ screenchange-reload = true
 ;compositing-foreground = source
 ;compositing-border = over
 ;pseudo-transparency = false
+
+; vim:ft=dosini
