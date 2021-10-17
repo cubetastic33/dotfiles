@@ -1,6 +1,7 @@
 #!/bin/sh
+
 maim -u -s /tmp/screenshot.png
 feh /tmp/screenshot.png &
-sleep .2
+sleep .05
 bspc node -t floating
 bspc node -g sticky

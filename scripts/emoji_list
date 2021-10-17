@@ -1,0 +1,4 @@
+#!/usr/bin/fish
+
+echo -en (ls ~/Pictures/emoji | sed -n 's/\(.*\)\.png$/\1\\\0icon\\\x1f\/home\/aravk\/Pictures\/emoji\/\0\\\n/p') | string replace ' ' ''
+echo -en (ls ~/Pictures/personal_emoji | sed -n 's/\(.*\)\.png$/\1\\\0icon\\\x1f\/home\/aravk\/Pictures\/personal_emoji\/\0\\\n/p') | string replace ' ' ''

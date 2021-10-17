@@ -1,0 +1,16 @@
+#!/usr/bin/fish
+
+# Make sure the emoji exists in neither emoji directory
+for directory in emoji_backup emoji
+    if test -e ~/Pictures/$directory/(basename $argv)
+        echo File "~/Pictures/$directory/"(basename $argv) already exists\; aborting mission
+        exit 1
+    end
+end
+
+# Make backup
+mv $argv ~/Pictures/emoji_backup/(basename $argv)
+# Create downscaled version
+convert -resize 48x48 -unsharp 0x1 ~/Pictures/emoji_backup/(basename $argv) ~/Pictures/emoji/(basename $argv)
+
+echo Created emoji \"(string split '.png' (basename $argv))[1]\"

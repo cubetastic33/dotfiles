@@ -1,4 +1,8 @@
 #!/bin/sh
 
 STDIN=$(cat)
-xclip -sel clip -t image/png -i '/home/aravk/Pictures/emoji/'$STDIN'.png'
+if [ -f "$HOME/Pictures/$1/$STDIN.png" ]; then
+    xclip -sel clip -t image/png -i "$HOME/Pictures/$1/$STDIN.png"
+else
+    xclip -sel clip -t image/png -i "$HOME/Pictures/personal_$1/$STDIN.png"
+fi

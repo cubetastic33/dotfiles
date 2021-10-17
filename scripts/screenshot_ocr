@@ -1,0 +1,24 @@
+#!/bin/sh
+
+maim -u -s /tmp/screenshot.png
+
+sleep .5
+
+if [ -z "$1" ]
+then
+    # Special case when no argument is given:
+    # tesseract will be run with Japanese, and spaces, form feeds, and newlines will be removed
+    RESULT=$(tesseract -l jpn /tmp/screenshot.png stdout | tr -d ' \n')
+elif [ $1 == "kanji" ]
+then
+    # Run tesseract with Japanese for a single character
+    RESULT=$(tesseract -l jpn --psm 10 /tmp/screenshot.png stdout)
+else
+    # If an argument is supplied, tesseract will simply be run with that language
+    RESULT=$(tesseract -l ${1:-jpn} /tmp/screenshot.png stdout)
+fi
+
+# Copy result to clipboard
+echo $RESULT | xclip -sel clip
+# Send a notification with the extracted text
+notify-send "Extracted Text" "$RESULT"
