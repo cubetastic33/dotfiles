@@ -3,19 +3,21 @@ The dotfiles for my Linux setup
 
 + WM: [bspwm](https://github.com/baskerville/bspwm)
 
-+ OS: [Artix Linux](https://www.archlinux.org/)
++ OS: [Arch Linux](https://www.archlinux.org)
 
-+ Shell: [fish](https://fishshell.com/)
++ Shell: [fish](https://fishshell.com)
 
 + Status Bar: [Polybar](https://github.com/jaagr/polybar)
 
-+ Lock Screen: [xsecurelock](https://github.com/google/xsecurelock)
++ Lock Screen: [XSecureLock](https://github.com/google/xsecurelock)
 
-+ Compositor: [Picom (jonaburg fork)](https://github.com/jonaburg/picom)
++ Compositor: [Picom](https://github.com/yshui/picom)
 
 + Terminal: [Alacritty](https://github.com/alacritty/alacritty)
 
-+ File Manager: [vifm](https://github.com/vifm/vifm)
++ Text Editor: [Neovim](https://neovim.io)
+
++ File Manager: [Vifm](https://vifm.info/)
 
 ## Notes
 I have [vifm-colors](https://github.com/vifm/vifm-colors/) and
