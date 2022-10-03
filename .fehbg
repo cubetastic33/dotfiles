@@ -1,2 +1,2 @@
 #!/bin/sh
-feh --no-fehbg --randomize --bg-fill ~/Pictures/wallpapers/active/*
+feh --no-fehbg --bg-fill --randomize $HOME/Pictures/wallpapers/active/*

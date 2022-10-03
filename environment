@@ -4,9 +4,5 @@
 #
 # Syntax: simple "KEY=VAL" pairs on separate lines
 #
-GTK_IM_MODULE=fcitx
-QT_IM_MODULE=fcitx
-XMODIFIERS=@im=fcitx
-QT_STYLE_OVERRIDE=kvantum
-EDITOR=nvim
-OPENCV_LOG_LEVEL=ERROR
+QT_QPA_PLATFORMTHEME=qt5ct
+INPUT_METHOD="fcitx"
