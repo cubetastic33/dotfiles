@@ -11,14 +11,14 @@
 
 # End of one-time run commands
 
+
 # Aliases
 alias lumos='exa -hlG --icons --git'
 alias reducto='rm'
 alias aparecium='bat'
-alias accio='paru --removemake --skipreview'
+alias dissect='rpm -ql'
 alias vifm='~/.config/vifm/scripts/vifmrun'
-alias purge_amnesia='matrix_purge --room-id "!MJobFmDgCqVfEnUyzq:matrix.org"'
-alias purge_obliviate='matrix_purge --room-id "!pzEhwcNUXUubHVqiOR:matrix.org"'
+alias python='python3'
 
 # Set the cursor shapes for the different vi modes
 set fish_cursor_default block
@@ -26,16 +26,15 @@ set fish_cursor_insert line blink
 set fish_cursor_replace_one underscore
 set fish_cursor_replace underscore
 
-# Spaceship prompt
-starship init fish | source
+if status is-interactive
+    # Commands to run in interactive sessions can go here
+    # Starship prompt
+    starship init fish | source
+end
 
 # SSH agent
 if test -z (pgrep ssh-agent | string collect)
     eval (ssh-agent -c)
     set -Ux SSH_AUTH_SOCK $SSH_AUTH_SOCK
     set -Ux SSH_AGENT_PID $SSH_AGENT_PID
-end
-
-if test -n "$DESKTOP_SESSION"
-    set -x (gnome-keyring-daemon --start | string split "=")
 end

@@ -8,11 +8,15 @@ super + Return
 
 # program launcher
 super + space
-    rofi -modi "drun,run" -show drun -show-icons -l 8
+    rofi -modi "drun,run,window,Power:power.fish" -show drun -show-icons -l 8
 
 # window switcher
 super + a
-    rofi -show window -show-icons
+    rofi -modi "drun,run,window,Power:power.fish" -show window -show-icons
+
+# power menu
+super + p
+    rofi -modi "drun,run,window,Power:power.fish" -show Power -show-icons
 
 # custom emoji
 super + e
@@ -25,10 +29,6 @@ super + shift + e
 # vifm
 super + v
     alacritty -e ~/.config/vifm/scripts/vifmrun
-
-# zathura
-super + z
-    zathura
 
 # dad mode
 super + d
@@ -45,6 +45,22 @@ super + control + L
 # make sxhkd reload its configuration files:
 super + Escape
     pkill -USR1 -x sxhkd
+
+#
+# Notifications
+#
+
+# Close notification
+super + {c,C}
+    dunstctl close{_,-all}
+
+# Redisplay the previous notification
+alt + grave
+    dunstctl history-pop
+
+# Open notification context menu
+alt + C
+    dunstctl context
 
 #
 # Volume controls
@@ -68,19 +84,15 @@ XF86AudioMute
 
 # Increase the brightness
 XF86MonBrightnessUp
-    light -A 5 && echo (light -G) > xobbklpipe
+    brightnessctl s +5% && math (brightnessctl g) / (brightnessctl m) \* 100 > xobbklpipe
 
 # Decrease the brightness
 XF86MonBrightnessDown
-    light -U 5 && echo (light -G) > xobbklpipe
+    brightnessctl s 5%- && math (brightnessctl g) / (brightnessctl m) \* 100 > xobbklpipe
 
-# Set the brightness to 0
-super + control + x
-    light -S 0
-
-# Set the brightness to 30%
-super + control + shift + x
-    light -S 30
+# Set the brightness to 0 or 30
+super + control + {x,X}
+    brightnessctl s {0,30%}
 
 #
 # Media player controls
@@ -89,26 +101,20 @@ super + control + shift + x
 # Play/Pause
 XF86AudioPlay
     playerctl play-pause
+super + alt + space
+    playerctl play-pause
 
 # Next
 XF86AudioNext
+    playerctl next
+super + period
     playerctl next
 
 # Previous
 XF86AudioPrev
     playerctl previous
-
-# MPD controls
-
-# Play/Pause
-hyper + alt + space
-    mpc toggle
-
-hyper + comma
-    mpc prev
-
-hyper + period
-    mpc next
+super + comma
+    playerctl previous
 
 #
 # Screenshot controls
@@ -150,7 +156,7 @@ alt + shift + Print
 # bspwm hotkeys
 #
 
-# quit/restart bspwm
+# restart bspwm
 super + alt + r
     bspc wm -r
 
@@ -195,19 +201,22 @@ super + {p,b,comma,period}
     bspc node -f @{parent,brother,first,second}
 
 # focus the next/previous node in the current desktop
-hyper + {_,shift + }Tab
+super + {_,shift + }Tab
     bspc node -f {next,prev}.local.window
 
-# focus the next/previous desktop in the current monitor
-super + bracket{left,right}
-    bspc desktop -f {prev,next}.local
-
 # focus the next/previous occupied desktop in the current monitor
-hyper + shift + bracket{left,right}
+super + bracket{left,right}
     bspc desktop -f {prev,next}.local.occupied
+
+# focus the next/previous desktop in the current monitor
+hyper + shift + bracket{left,right}
+    bspc desktop -f {prev,next}.local
 
 # focus the last desktop
 alt + space
+    bspc desktop -f last
+
+super + grave
     bspc desktop -f last
 
 # focus the older or newer node in the focus history

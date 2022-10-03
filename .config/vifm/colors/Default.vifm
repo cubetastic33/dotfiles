@@ -18,7 +18,8 @@
 " Cyan = 6
 " White = 7
 
-" Light versions of colors are also available (set bold attribute):
+" Light versions of colors are also available (they set bold
+" attribute in terminals with less than 16 colors):
 " LightBlack
 " LightRed
 " LightGreen
@@ -34,6 +35,7 @@
 " reverse or inverse
 " standout
 " italic (on unsupported systems becomes reverse)
+" combine
 " none
 
 " Vifm supports 256 colors you can use color numbers 0-255

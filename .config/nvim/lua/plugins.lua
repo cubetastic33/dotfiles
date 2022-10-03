@@ -1,41 +1,37 @@
--- Packer plugin management
-
-local fn = vim.fn
-local install_path = fn.stdpath("data").."/site/pack/packer/start/packer.nvim"
-if fn.empty(fn.glob(install_path)) > 0 then
-    fn.system({"git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path})
-    vim.cmd "packadd packer.nvim"
-end
+-- Packer plugins
 
 return require("packer").startup(function()
     -- Packer can manage itself
     use "wbthomason/packer.nvim"
+
     -- colorscheme
-    use "tjdevries/colorbuddy.nvim"
-    use "Th3Whit3Wolf/one-nvim"
-    -- icons
-    use "kyazdani42/nvim-web-devicons"
+    use "olimorris/onedarkpro.nvim"
+    use {"catppuccin/nvim", as = "catppuccin"}
+    -- fish syntax highlighting
+    use {"nickeb96/fish.vim", ft = 'fish'}
     -- status line
-    use "famiu/feline.nvim"
     use {
-        "hoob3rt/lualine.nvim",
-        requires = {"kyazdani42/nvim-web-devicons", opt = true}
+        "nvim-lualine/lualine.nvim",
+        requires = { "kyazdani42/nvim-web-devicons", opt = true }
     }
     -- buffer line
     use {"akinsho/bufferline.nvim", requires = "kyazdani42/nvim-web-devicons"}
     -- git signs
-    use {
-	"lewis6991/gitsigns.nvim",
-	requires = "nvim-lua/plenary.nvim",
-	config = function()
-            require('gitsigns').setup()
-    	end
-    }
-    -- language servers
-    use "neovim/nvim-lspconfig"
-    use "simrat39/rust-tools.nvim"
-    use "latex-lsp/texlab"
+    use {"lewis6991/gitsigns.nvim", requires = "nvim-lua/plenary.nvim"}
+
+    -- telescope
+    use {"nvim-telescope/telescope.nvim", requires = "nvim-lua/plenary.nvim"}
+    -- brackets
+    use "windwp/nvim-autopairs"
     -- autocompletion
-    use {"ms-jpq/coq_nvim", branch = "coq"}
-    use {"ms-jpq/coq.artifacts", branch = "artifacts"}
+    use "neovim/nvim-lspconfig" -- Collection of configurations for built-in LSP client
+    use "hrsh7th/nvim-cmp" -- Autocompletion plugin
+    use "hrsh7th/cmp-buffer" -- Buffer source for nvim-cmp
+    use "hrsh7th/cmp-path" -- Paths source for nvim-cmp
+    use { "hrsh7th/cmp-nvim-lua", ft = "lua" } -- Lua source for nvim-cmp
+    use "hrsh7th/cmp-nvim-lsp" -- LSP source for nvim-cmp
+    use "saadparwaiz1/cmp_luasnip" -- Snippets source for nvim-cmp
+    use "L3MON4D3/LuaSnip" -- Snippets plugin
+    -- language servers
+    use "simrat39/rust-tools.nvim"
 end)

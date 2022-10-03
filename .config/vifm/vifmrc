@@ -1,5 +1,5 @@
 " vim: filetype=vifm :
-" Sample configuration file for vifm (last updated: 9 September, 2020)
+" Sample configuration file for vifm (last updated: 31 August, 2021)
 " You can edit this file by hand.
 " The " character at the beginning of a line comments out the line.
 " Blank lines are ignored.
@@ -38,11 +38,6 @@ set history=100
 " Automatically resolve symbolic links on l or Enter.
 
 set nofollowlinks
-
-" With this option turned on you can run partially entered commands with
-" unambiguous beginning using :! (e.g. :!Te instead of :!Terminal or :!Te<tab>).
-
-" set fastrun
 
 " Natural sort of (version) numbers within text.
 
@@ -135,7 +130,7 @@ mark h ~/
 
 command! df df -h %m 2> /dev/null
 command! diff vim -d %f %F
-command! zip zip -r %f.zip %f
+command! zip zip -r %c.zip %f
 command! run !! ./%f
 command! make !!make %a
 command! mkcd :mkdir %a | cd %a
@@ -208,10 +203,7 @@ filetype {*.wav,*.mp3,*.flac,*.m4a,*.wma,*.ape,*.ac3,*.og[agx],*.spx,*.opus},
        \ {Play using mpv}
        \ mpv %f,
 fileviewer {*.mp3},<audio/mpeg> mp3info
-fileviewer {*.flac},<audio/flac>
-        \ vifmimg audiopreview %px %py %pw %ph %c
-        \ %pc
-        \ vifmimg clear
+fileviewer {*.flac},<audio/flac> soxi
 
 " Video
 filextype {*.avi,*.mp4,*.wmv,*.dat,*.3gp,*.ogv,*.mkv,*.mpg,*.mpeg,*.vob,
@@ -244,8 +236,8 @@ fileviewer <font/*>
 filextype {*.html,*.htm},<text/html>
         \ {Open with dwb}
         \ dwb %f %i &,
-        \ {Open with firefox}
-        \ firefox %f &,
+        \ {Open with firefox nightly}
+        \ firefox-nightly %f &,
         \ {Open with uzbl}
         \ uzbl-browser %f %i &,
 filetype {*.html,*.htm},<text/html> links, lynx
@@ -257,12 +249,7 @@ filetype {*.o},<application/x-object> nm %f | less
 filetype {*.[1-8]},<text/troff> man ./%c
 fileviewer {*.[1-8]},<text/troff> man ./%c | col -b
 
-" GIFs
-filextype *.gif
-        \ {View in imv}
-        \ imv -fs shrink %f,
-
-" Other images
+" Images
 filextype *.bmp,*.jpg,*.jpeg,*.png,*.gif,*.xpm,*.webp,*.tiff
         \ {View in feh}
         \ feh -F -\| %f,
@@ -365,6 +352,12 @@ filetype *.ftp
        \ {Mount with curlftpfs}
        \ FUSE_MOUNT2|curlftpfs -o ftp_port=-,,disable_eprt %PARAM %DESTINATION_DIR %FOREGROUND,
 
+" Fuse7z and 7z archives
+filetype {*.7z},<application/x-7z-compressed>
+       \ {Mount with fuse-7z}
+       \ FUSE_MOUNT|fuse-7z %SOURCE_FILE %DESTINATION_DIR,
+fileviewer {*.7z},<application/x-7z-compressed> 7z l %c
+
 " Office files
 filextype {*.odt,*.doc,*.docx,*.xls,*.xlsx,*.odp,*.pptx,*.ppt},
          \<application/vnd.openxmlformats-officedocument.*,
@@ -417,7 +410,7 @@ filextype */
 " For OS X:
 " filetype * open
 " For Windows:
-" filetype * start, explorer
+" filetype * start, explorer %"f &
 
 " ------------------------------------------------------------------------------
 
@@ -540,5 +533,3 @@ nnoremap <c-u> <c-w>x
 " Shortcuts to scroll PDF previews
 map > :!vifmimg inc<CR>
 map < :!vifmimg dec<CR>
-
-source /usr/share/vifm-devicons/favicons.vifm

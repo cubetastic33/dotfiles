@@ -8,8 +8,11 @@ pgrep -x sxhkd > /dev/null || sxhkd &
 # Wallpaper
 ~/.fehbg
 
+# Fix default cursor
+xsetroot -cursor_name left_ptr
+
 # Compositor
-picom --experimental-backends -b
+picom -b --experimental-backends
 
 # Notification server
 dunst &
@@ -26,21 +29,20 @@ tail -f xobbklpipe | xob -s backlight &
 # Status bar
 $HOME/.config/polybar/launch.sh
 
-# MPD notifications
-$HOME/scripts/mpd_notifications.py &
-
 # Input method framework
 fcitx5 &
-
-# MPD
-[ ! -s ~/.config/mpd/pid ] && mpd
 
 # Touchpad gestures
 libinput-gestures-setup start
 
+# Conky
+$HOME/.config/conky/Murphid/start.sh
+
 # Lockscreen
-xset s 600 10
-xss-lock -n /usr/lib/xsecurelock/dimmer -l -- env XSECURELOCK_PAM_SERVICE="xscreensaver" XSECURELOCK_AUTH_BACKGROUND_COLOR='#000000' XSECURELOCK_AUTH_FOREGROUND_COLOR='#FFFFFF' XSECURELOCK_FONT='iosevka' XSECURELOCK_COMPOSITE_OBSCURER=0 XSECURELOCK_SAVER='saver_feh' XSECURELOCK_IMAGE_PATH="$HOME/Pictures/lockscreen.jpg" XSECURELOCK_BLANK_TIMEOUT=15 XSECURELOCK_WAIT_TIME_MS=10 xsecurelock &
+xset s 450 10
+xss-lock -n /usr/libexec/xsecurelock/dimmer -l -- env XSECURELOCK_PAM_SERVICE="xscreensaver" XSECURELOCK_AUTH_BACKGROUND_COLOR='#000000' XSECURELOCK_AUTH_FOREGROUND_COLOR='#FFFFFF' XSECURELOCK_FONT='iosevka' XSECURELOCK_COMPOSITE_OBSCURER=0 XSECURELOCK_SAVER='saver_feh' XSECURELOCK_IMAGE_PATH="$HOME/Pictures/lockscreen.jpg" XSECURELOCK_BLANK_TIMEOUT=15 XSECURELOCK_WAIT_TIME_MS=10 xsecurelock &
+# Auto-suspend
+xautolock -detectsleep -time 15 -locker "systemctl suspend" &
 
 # bspwm config
 
@@ -48,10 +50,11 @@ xss-lock -n /usr/lib/xsecurelock/dimmer -l -- env XSECURELOCK_PAM_SERVICE="xscre
 # bspc monitor DP-1 -d XI XII XIII XIV XV XVI XVII XVIII XIX XX
 bspc monitor -d I II III IV V VI VII VIII IX X XI XII XIII XIV XV XVI XVII XVIII XIX XX
 
-bspc config border_width           1
-bspc config window_gap             10
+bspc config border_width         1
+bspc config window_gap          10
+bspc config top_padding         40
 
-bspc config split_ratio            0.5
+bspc config split_ratio          0.52
 bspc config borderless_monocle     true
 bspc config gapless_monocle        false
 bspc config left_monocle_padding   -10
@@ -66,12 +69,18 @@ bspc config focused_border_color  "#000000"
 bspc config presel_border_color   "#efe383"
 
 # Rules to open certain apps in specific desktops by default
+bspc rule -a Spotify desktop=^3
 bspc rule -a Pavucontrol desktop=^6
 bspc rule -a Transmission-gtk desktop=^10
 bspc rule -a discord desktop=^11
+bspc rule -a Signal desktop=^11
 bspc rule -a Anki desktop=^12
 bspc rule -a zoom desktop=^13
 bspc rule -a Element desktop=^14
 bspc rule -a Anydesk desktop=^19
 bspc rule -a Thunderbird desktop=^20
 bspc rule -a Mailspring desktop=^20
+# Rules to open apps in tiled/floating mode
+bspc rule -a firefox-nightly state=tiled
+bspc rule -a jetbrains-idea state=floating
+bspc rule -a jetbrains-goland state=floating

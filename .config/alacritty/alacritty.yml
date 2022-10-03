@@ -63,6 +63,12 @@ window:
   #     - buttonless: Title bar, transparent background and no title bar buttons
   #decorations: full
 
+  # Background opacity
+  #
+  # Window opacity as a floating point number from `0.0` to `1.0`.
+  # The value `0.0` is completely transparent and `1.0` is opaque.
+  opacity: 0.85
+
   # Startup Mode (changes require restart)
   #
   # Values for `startup_mode`:
@@ -104,14 +110,14 @@ window:
 # Font configuration
 font:
   # Normal (roman) font face
-  normal:
+  #normal:
     # Font family
     #
     # Default:
     #   - (macOS) Menlo
     #   - (Linux/BSD) monospace
     #   - (Windows) Consolas
-    family: monospace
+    #family: monospace
 
     # The `style` can be specified to pick a specific face.
     #style: Regular
@@ -150,7 +156,7 @@ font:
     #style: Bold Italic
 
   # Point size
-  size: 7.5
+  size: 8.0
 
   # Offset is the extra space around each character. `offset.y` can be thought
   # of as modifying the line spacing, and `offset.x` as modifying the letter
@@ -171,6 +177,13 @@ font:
   # Thin strokes are suitable for retina displays, but for non-retina screens
   # it is recommended to set `use_thin_strokes` to `false`.
   #use_thin_strokes: true
+
+  # Use built-in font for box drawing characters.
+  #
+  # If `true`, Alacritty will use a custom built-in font for box drawing
+  # characters (Unicode points 2500 - 259f).
+  #
+  #builtin_box_drawing: true
 
 # If `true`, bold text is drawn using the bright color variants.
 #draw_bold_text_with_bright_colors: false
@@ -312,6 +325,13 @@ font:
   #
   #indexed_colors: []
 
+  # Transparent cell backgrounds
+  #
+  # Whether or not `window.opacity` applies to all cell backgrounds or only to
+  # the default background. When set to `true` all cells will be transparent
+  # regardless of their background color.
+  #transparent_background_colors: false
+
 # Bell
 #
 # The bell is rung every time the BEL control character is received.
@@ -353,12 +373,6 @@ font:
   #
   #command: None
 
-# Background opacity
-#
-# Window opacity as a floating point number from `0.0` to `1.0`.
-# The value `0.0` is completely transparent and `1.0` is opaque.
-background_opacity: 0.9
-
 #selection:
   # This string contains all characters that are used as separators for
   # "semantic words" in Alacritty.
@@ -367,16 +381,16 @@ background_opacity: 0.9
   # When set to `true`, selected text will be copied to the primary clipboard.
   #save_to_clipboard: false
 
-cursor:
+#cursor:
   # Cursor style
-  style:
+  #style:
     # Cursor shape
     #
     # Values for `shape`:
     #   - ▇ Block
     #   - _ Underline
     #   - | Beam
-    shape: Beam
+    #shape: Block
 
     # Cursor blinking state
     #
@@ -385,7 +399,7 @@ cursor:
     #   - Off: Disable blinking by default
     #   - On: Enable blinking by default
     #   - Always: Force the cursor to always blink
-    blinking: On
+    #blinking: Off
 
   # Vi mode cursor style
   #
@@ -432,6 +446,9 @@ cursor:
 
 # Send ESC (\x1b) before characters when alt is pressed.
 #alt_send_esc: true
+
+# Offer IPC using `alacritty msg` (unix only)
+#ipc_socket: true
 
 #mouse:
   # Click settings
@@ -507,13 +524,20 @@ cursor:
 #   - Right
 #   - Numeric identifier such as `5`
 #
-# - `action` (see key bindings)
+# - `action` (see key bindings for actions not exclusive to mouse mode)
+#
+# - Mouse exclusive actions:
+#
+#   - ExpandSelection
+#       Expand the selection to the current mouse cursor location.
 #
 # And optionally:
 #
 # - `mods` (see key bindings)
 #mouse_bindings:
-#  - { mouse: Middle, action: PasteSelection }
+#  - { mouse: Right,                 action: ExpandSelection }
+#  - { mouse: Right,  mods: Control, action: ExpandSelection }
+#  - { mouse: Middle, mode: ~Vi,     action: PasteSelection  }
 
 # Key bindings
 #
@@ -582,6 +606,8 @@ cursor:
 #   - ToggleFullscreen
 #   - SpawnNewInstance
 #       Spawn a new instance of Alacritty.
+#   - CreateNewWindow
+#       Create a new Alacritty window from the current process.
 #   - ClearLogNotice
 #       Clear Alacritty's UI warning and error notice.
 #   - ClearSelection
@@ -599,6 +625,8 @@ cursor:
 #   - ToggleBlockSelection
 #   - ToggleSemanticSelection
 #       Toggle semantic selection based on `selection.semantic_escape_chars`.
+#   - CenterAroundViCursor
+#       Center view around vi mode cursor
 #
 # - Vi mode exclusive cursor motion actions:
 #
@@ -724,9 +752,9 @@ cursor:
   #- { key: Copy,                                        action: Copy           }
   #- { key: L,         mods: Control,                    action: ClearLogNotice }
   #- { key: L,         mods: Control, mode: ~Vi|~Search, chars: "\x0c"          }
-  #- { key: PageUp,    mods: Shift,   mode: ~Alt,        action: ScrollPageUp,  }
+  #- { key: PageUp,    mods: Shift,   mode: ~Alt,        action: ScrollPageUp   }
   #- { key: PageDown,  mods: Shift,   mode: ~Alt,        action: ScrollPageDown }
-  #- { key: Home,      mods: Shift,   mode: ~Alt,        action: ScrollToTop,   }
+  #- { key: Home,      mods: Shift,   mode: ~Alt,        action: ScrollToTop    }
   #- { key: End,       mods: Shift,   mode: ~Alt,        action: ScrollToBottom }
 
   # Vi Mode
@@ -752,6 +780,7 @@ cursor:
   #- { key: V,      mods: Control,       mode: Vi|~Search, action: ToggleBlockSelection    }
   #- { key: V,      mods: Alt,           mode: Vi|~Search, action: ToggleSemanticSelection }
   #- { key: Return,                      mode: Vi|~Search, action: Open                    }
+  #- { key: Z,                           mode: Vi|~Search, action: CenterAroundViCursor    }
   #- { key: K,                           mode: Vi|~Search, action: Up                      }
   #- { key: J,                           mode: Vi|~Search, action: Down                    }
   #- { key: H,                           mode: Vi|~Search, action: Left                    }
@@ -850,3 +879,332 @@ cursor:
 
   # Print all received window events.
   #print_events: false
+
+  # Highlight window damage information.
+  #highlight_damage: false
+
+# Colorscheme
+color_schemes:
+  latte: &latte
+    # Default colors
+    primary:
+      background: '#EFF1F5' # base
+      foreground: '#4C4F69' # text
+      # Bright and dim foreground colors
+      dim_foreground: '#4C4F69' # text
+      bright_foreground: '#4C4F69' # text
+
+    # Cursor colors
+    cursor:
+      text: '#EFF1F5' # base
+      cursor: '#DC8A78' # rosewater
+    vi_mode_cursor:
+      text: '#EFF1F5' # base
+      cursor: '#7287FD' # lavender
+
+    # Search colors
+    search:
+      matches:
+        foreground: '#EFF1F5' # base
+        background: '#6C6F85' # subtext0
+      focused_match:
+        foreground: '#EFF1F5' # base
+        background: '#40A02B' # green
+      bar:
+        foreground: '#EFF1F5' # base
+        background: '#6C6F85' # subtext0
+
+    # Keyboard regex hints
+    hints:
+      start:
+        foreground: '#EFF1F5' # base
+        background: '#DF8E1D' # yellow
+      end:
+        foreground: '#EFF1F5' # base
+        background: '#6C6F85' # subtext0
+
+    # Selection colors
+    selection:
+      text: '#EFF1F5' # base
+      background: '#DC8A78' # rosewater
+
+    # Normal colors
+    normal:
+      black:   '#5C5F77' # subtext1
+      red:     '#D20F39' # red
+      green:   '#40A02B' # green
+      yellow:  '#DF8E1D' # yellow
+      blue:    '#1E66F5' # blue
+      magenta: '#EA76CB' # pink
+      cyan:    '#179299' # teal
+      white:   '#ACB0BE' # surface2
+
+    # Bright colors
+    bright:
+      black:   '#6C6F85' # subtext0
+      red:     '#D20F39' # red
+      green:   '#40A02B' # green
+      yellow:  '#DF8E1D' # yellow
+      blue:    '#1E66F5' # blue
+      magenta: '#EA76CB' # pink
+      cyan:    '#179299' # teal
+      white:   '#BCC0CC' # surface1
+
+    # Dim colors
+    dim:
+      black:   '#5C5F77' # subtext1
+      red:     '#D20F39' # red
+      green:   '#40A02B' # green
+      yellow:  '#DF8E1D' # yellow
+      blue:    '#1E66F5' # blue
+      magenta: '#EA76CB' # pink
+      cyan:    '#179299' # teal
+      white:   '#ACB0BE' # surface2
+
+    indexed_colors:
+      - { index: 16, color: '#FE640B' }
+      - { index: 17, color: '#DC8A78' }
+
+  frappe: &frappe
+    # Default colors
+    primary:
+      background: '#303446' # base
+      foreground: '#C6D0F5' # text
+      # Bright and dim foreground colors
+      dim_foreground: '#C6D0F5' # text
+      bright_foreground: '#C6D0F5' # text
+
+    # Cursor colors
+    cursor:
+      text: '#303446' # base
+      cursor: '#F2D5CF' # rosewater
+    vi_mode_cursor:
+      text: '#303446' # base
+      cursor: '#BABBF1' # lavender
+
+    # Search colors
+    search:
+      matches:
+        foreground: '#303446' # base
+        background: '#A5ADCE' # subtext0
+      focused_match:
+        foreground: '#303446' # base
+        background: '#A6D189' # green
+      bar:
+        foreground: '#303446' # base
+        background: '#A5ADCE' # subtext0
+
+    # Keyboard regex hints
+    hints:
+      start:
+        foreground: '#303446' # base
+        background: '#E5C890' # yellow
+      end:
+        foreground: '#303446' # base
+        background: '#A5ADCE' # subtext0
+
+    # Selection colors
+    selection:
+      text: '#303446' # base
+      background: '#F2D5CF' # rosewater
+
+    # Normal colors
+    normal:
+      black:   '#51576D' # surface1
+      red:     '#E78284' # red
+      green:   '#A6D189' # green
+      yellow:  '#E5C890' # yellow
+      blue:    '#8CAAEE' # blue
+      magenta: '#F4B8E4' # pink
+      cyan:    '#81C8BE' # teal
+      white:   '#B5BFE2' # subtext1
+
+    # Bright colors
+    bright:
+      black:   '#626880' # surface2
+      red:     '#E78284' # red
+      green:   '#A6D189' # green
+      yellow:  '#E5C890' # yellow
+      blue:    '#8CAAEE' # blue
+      magenta: '#F4B8E4' # pink
+      cyan:    '#81C8BE' # teal
+      white:   '#A5ADCE' # subtext0
+
+    # Dim colors
+    dim:
+      black:   '#51576D' # surface1
+      red:     '#E78284' # red
+      green:   '#A6D189' # green
+      yellow:  '#E5C890' # yellow
+      blue:    '#8CAAEE' # blue
+      magenta: '#F4B8E4' # pink
+      cyan:    '#81C8BE' # teal
+      white:   '#B5BFE2' # subtext1
+
+    indexed_colors:
+      - { index: 16, color: '#EF9F76' }
+      - { index: 17, color: '#F2D5CF' }
+
+  macchiato: &macchiato
+    # Default colors
+    primary:
+      background: '#24273A' # base
+      foreground: '#CAD3F5' # text
+      # Bright and dim foreground colors
+      dim_foreground: '#CAD3F5' # text
+      bright_foreground: '#CAD3F5' # text
+
+    # Cursor colors
+    cursor:
+      text: '#24273A' # base
+      cursor: '#F4DBD6' # rosewater
+    vi_mode_cursor:
+      text: '#24273A' # base
+      cursor: '#B7BDF8' # lavender
+
+    # Search colors
+    search:
+      matches:
+        foreground: '#24273A' # base
+        background: '#A5ADCB' # subtext0
+      focused_match:
+        foreground: '#24273A' # base
+        background: '#A6DA95' # green
+      bar:
+        foreground: '#24273A' # base
+        background: '#A5ADCB' # subtext0
+
+    # Keyboard regex hints
+    hints:
+      start:
+        foreground: '#24273A' # base
+        background: '#EED49F' # yellow
+      end:
+        foreground: '#24273A' # base
+        background: '#A5ADCB' # subtext0
+
+    # Selection colors
+    selection:
+      text: '#24273A' # base
+      background: '#F4DBD6' # rosewater
+
+    # Normal colors
+    normal:
+      black:   '#494D64' # surface1
+      red:     '#ED8796' # red
+      green:   '#A6DA95' # green
+      yellow:  '#EED49F' # yellow
+      blue:    '#8AADF4' # blue
+      magenta: '#F5BDE6' # pink
+      cyan:    '#8BD5CA' # teal
+      white:   '#B8C0E0' # subtext1
+
+    # Bright colors
+    bright:
+      black:   '#5B6078' # surface2
+      red:     '#ED8796' # red
+      green:   '#A6DA95' # green
+      yellow:  '#EED49F' # yellow
+      blue:    '#8AADF4' # blue
+      magenta: '#F5BDE6' # pink
+      cyan:    '#8BD5CA' # teal
+      white:   '#A5ADCB' # subtext0
+
+    # Dim colors
+    dim:
+      black:   '#494D64' # surface1
+      red:     '#ED8796' # red
+      green:   '#A6DA95' # green
+      yellow:  '#EED49F' # yellow
+      blue:    '#8AADF4' # blue
+      magenta: '#F5BDE6' # pink
+      cyan:    '#8BD5CA' # teal
+      white:   '#B8C0E0' # subtext1
+
+    indexed_colors:
+      - { index: 16, color: '#F5A97F' }
+      - { index: 17, color: '#F4DBD6' }
+
+  mocha: &mocha
+    # Default colors
+    primary:
+      background: '#1E1E2E' # base
+      foreground: '#CDD6F4' # text
+      # Bright and dim foreground colors
+      dim_foreground: '#CDD6F4' # text
+      bright_foreground: '#CDD6F4' # text
+
+    # Cursor colors
+    cursor:
+      text: '#1E1E2E' # base
+      cursor: '#F5E0DC' # rosewater
+    vi_mode_cursor:
+      text: '#1E1E2E' # base
+      cursor: '#B4BEFE' # lavender
+
+    # Search colors
+    search:
+      matches:
+        foreground: '#1E1E2E' # base
+        background: '#A6ADC8' # subtext0
+      focused_match:
+        foreground: '#1E1E2E' # base
+        background: '#A6E3A1' # green
+      bar:
+        foreground: '#1E1E2E' # base
+        background: '#A6ADC8' # subtext0
+
+    # Keyboard regex hints
+    hints:
+      start:
+        foreground: '#1E1E2E' # base
+        background: '#F9E2AF' # yellow
+      end:
+        foreground: '#1E1E2E' # base
+        background: '#A6ADC8' # subtext0
+
+    # Selection colors
+    selection:
+      text: '#1E1E2E' # base
+      background: '#F5E0DC' # rosewater
+
+    # Normal colors
+    normal:
+      black:   '#45475A' # surface1
+      red:     '#F38BA8' # red
+      green:   '#A6E3A1' # green
+      yellow:  '#F9E2AF' # yellow
+      blue:    '#89B4FA' # blue
+      magenta: '#F5C2E7' # pink
+      cyan:    '#94E2D5' # teal
+      white:   '#BAC2DE' # subtext1
+
+    # Bright colors
+    bright:
+      black:   '#585B70' # surface2
+      red:     '#F38BA8' # red
+      green:   '#A6E3A1' # green
+      yellow:  '#F9E2AF' # yellow
+      blue:    '#89B4FA' # blue
+      magenta: '#F5C2E7' # pink
+      cyan:    '#94E2D5' # teal
+      white:   '#A6ADC8' # subtext0
+
+    # Dim colors
+    dim:
+      black:   '#45475A' # surface1
+      red:     '#F38BA8' # red
+      green:   '#A6E3A1' # green
+      yellow:  '#F9E2AF' # yellow
+      blue:    '#89B4FA' # blue
+      magenta: '#F5C2E7' # pink
+      cyan:    '#94E2D5' # teal
+      white:   '#BAC2DE' # subtext1
+
+    indexed_colors:
+      - { index: 16, color: '#FAB387' }
+      - { index: 17, color: '#F5E0DC' }
+
+
+
+colors: *mocha
