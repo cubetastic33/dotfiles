@@ -42,9 +42,21 @@ super + ctrl + d
 super + control + L
     xset s activate
 
+# Undo ctrl and caps lock swap
+super + control + z
+    setxkbmap -option
+
+# Enable ctrl and caps lock swap
+super + control + Z
+    setxkbmap -option "ctrl:swapcaps,compose:menu"
+
 # make sxhkd reload its configuration files:
 super + Escape
     pkill -USR1 -x sxhkd
+
+# EWW
+super + A
+    ~/scripts/launch_dashboard
 
 #
 # Notifications
